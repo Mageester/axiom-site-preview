@@ -6,25 +6,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: 'Sentient Logistics',
-    category: 'AI Pipeline / Next.js',
-    year: '2026',
+    title: 'Nails Studio Demo',
+    category: 'Beauty / Booking Experience',
+    status: 'LIVE DEMO',
+    code: 'AX-014',
   },
   {
-    title: 'Nexus Capital',
-    category: 'Web Application / FinTech',
-    year: '2025',
+    title: 'Blackline Barber Co.',
+    category: 'Grooming / Local Brand System',
+    status: 'SYSTEM READY',
+    code: 'AX-027',
   },
   {
-    title: 'Aegis Core',
-    category: 'System Architecture / UI',
-    year: '2025',
+    title: 'Aurelia Dental Studio',
+    category: 'Healthcare / Trust-First Website',
+    status: 'EDGE DEPLOYED',
+    code: 'AX-031',
   },
 ];
 
-const headingLines = [
-  ['Selected', 'Work'],
-];
+const headingLines = [['Selected', 'Work']];
 
 export default function Work() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -33,97 +34,102 @@ export default function Work() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const stList: ScrollTrigger[] = [];
-
-    // Heading Word Reveal
-    const words = headingRef.current?.querySelectorAll('.reveal-word');
-    if (words?.length) {
-      gsap.set(words, { y: '105%' });
-      stList.push(
+    const ctx = gsap.context(() => {
+      const words = headingRef.current?.querySelectorAll('.reveal-word');
+      if (words?.length) {
+        gsap.set(words, { y: '108%', rotateX: -10, transformOrigin: '50% 100%' });
         ScrollTrigger.create({
           trigger: headingRef.current,
-          start: 'top 85%',
+          start: 'top 82%',
+          once: true,
           onEnter: () => {
             gsap.to(words, {
               y: '0%',
-              duration: 1.1,
+              rotateX: 0,
+              duration: 1,
               ease: 'power4.out',
               stagger: 0.08,
             });
           },
-          once: true,
+        });
+      }
+
+      const cards = gsap.utils.toArray<HTMLElement>('.work-card');
+      cards.forEach((card) => {
+        const visualContainer = card.querySelector('.visual-container');
+        const innerVisual = card.querySelector('.inner-visual');
+        const metadata = card.querySelector('.metadata');
+        const scanline = card.querySelector('.card-scanline');
+        const fragments = card.querySelectorAll('.interface-fragment');
+
+        gsap.set(visualContainer, { clipPath: 'inset(0 100% 0 0)' });
+        gsap.set(innerVisual, { scale: 1.08, x: '-10%', opacity: 0.72 });
+        gsap.set(metadata, { opacity: 0, y: 18 });
+        gsap.set(fragments, { opacity: 0, x: -18 });
+        gsap.set(scanline, { xPercent: -120 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 78%',
+          },
+        });
+
+        tl.to(visualContainer, {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 1.25,
+          ease: 'power4.inOut',
         })
-      );
-    }
-
-    // Project Cards Reveal
-    const cards = sectionRef.current.querySelectorAll('.work-card');
-    cards.forEach((card) => {
-      const visualContainer = card.querySelector('.visual-container');
-      const innerVisual = card.querySelector('.inner-visual');
-      const metadata = card.querySelector('.metadata');
-
-      // Initial state
-      gsap.set(visualContainer, { clipPath: 'inset(0 100% 0 0)' });
-      gsap.set(innerVisual, { scale: 1.1, x: '-15%' });
-      gsap.set(metadata, { opacity: 0, y: 16 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 80%',
-        },
-      });
-
-      stList.push(tl.scrollTrigger!);
-
-      tl.to(visualContainer, {
-        clipPath: 'inset(0 0% 0 0)',
-        duration: 1.4,
-        ease: 'power4.inOut',
-      })
-        .to(
-          innerVisual,
-          {
+          .to(innerVisual, {
             scale: 1,
             x: '0%',
-            duration: 1.4,
+            opacity: 1,
+            duration: 1.25,
             ease: 'power4.inOut',
-          },
-          0
-        )
-        .to(
-          metadata,
-          {
+          }, 0)
+          .to(scanline, {
+            xPercent: 135,
+            duration: 1.05,
+            ease: 'power3.inOut',
+          }, 0.18)
+          .to(fragments, {
+            opacity: 1,
+            x: 0,
+            duration: 0.65,
+            stagger: 0.055,
+            ease: 'power3.out',
+          }, 0.54)
+          .to(metadata, {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.7,
             ease: 'power3.out',
-          },
-          '-=0.6'
-        );
-    });
+          }, 0.72);
+      });
+    }, sectionRef);
 
-    return () => {
-      stList.forEach((t) => t?.kill());
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
       id="work"
-      className="relative w-full pb-32 pt-32 lg:pt-48"
-      style={{ paddingLeft: 'clamp(32px, 7vw, 108px)', paddingRight: 'clamp(32px, 4vw, 64px)' }}
+      className="relative w-full pb-32 pt-28 lg:pt-36"
+      style={{
+        paddingLeft: 'clamp(32px, 7vw, 108px)',
+        paddingRight: 'clamp(32px, 4vw, 64px)',
+        background: 'var(--ax-bg)',
+      }}
     >
-      <div className="mb-24 md:mb-32">
+      <div className="mb-16 md:mb-24 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <h2
           ref={headingRef}
           className="font-geist font-bold"
           style={{
-            fontSize: 'clamp(40px, 5vw, 80px)',
+            fontSize: 'clamp(44px, 5.4vw, 84px)',
             letterSpacing: '-0.04em',
-            lineHeight: 0.95,
+            lineHeight: 0.94,
             color: '#ebebeb',
           }}
         >
@@ -137,56 +143,80 @@ export default function Work() {
             </span>
           ))}
         </h2>
+
+        <div className="hidden md:block text-right">
+          <p className="font-geist text-[10px] uppercase tracking-[0.24em] text-[rgba(200,255,0,0.55)]">Work Index / Loaded</p>
+          <p className="mt-2 font-geist text-xs uppercase tracking-[0.22em] text-[rgba(235,235,235,0.28)]">03 client systems</p>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-24 md:gap-32">
+      <div className="flex flex-col gap-20 md:gap-28">
         {projects.map((project, idx) => (
           <a
-            key={idx}
+            key={project.title}
             href={`#project-${idx}`}
             data-cursor="view"
             className="work-card group block w-full no-underline"
           >
-            {/* Visual Container */}
-            <div className="visual-container relative overflow-hidden aspect-[16/9] md:aspect-[21/9] bg-[var(--ax-surface)] border border-[var(--ax-border)]">
-              {/* Inner Visual (Parallax & Scale) */}
-              <div className="inner-visual w-full h-full relative transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]">
-                {/* CSS Grid Pattern for placeholder */}
+            <div className="visual-container relative overflow-hidden aspect-[16/9] md:aspect-[21/9] border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)' }}>
+              <div className="inner-visual relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]">
                 <div
                   className="absolute inset-0"
                   style={{
                     backgroundImage:
-                      'linear-gradient(var(--ax-border) 1px, transparent 1px), linear-gradient(90deg, var(--ax-border) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
+                      'linear-gradient(rgba(235,235,235,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(235,235,235,0.05) 1px, transparent 1px)',
+                    backgroundSize: '44px 44px',
                     backgroundPosition: 'center center',
-                    opacity: 0.4,
                   }}
                 />
-                
-                {/* Center abstract shape/text placeholder */}
+                <div
+                  className="absolute inset-0 opacity-60"
+                  style={{
+                    background:
+                      'linear-gradient(90deg, rgba(6,6,6,0.92), rgba(15,15,15,0.46) 48%, rgba(6,6,6,0.76)), linear-gradient(180deg, rgba(200,255,0,0.05), transparent 35%, rgba(200,255,0,0.035))',
+                  }}
+                />
+
+                <div className="card-scanline absolute top-0 h-full w-[18%] bg-[linear-gradient(90deg,transparent,rgba(200,255,0,0.16),transparent)] opacity-80" />
+
+                <div className="absolute left-6 top-6 flex items-center gap-3 md:left-8 md:top-8">
+                  <span className="h-2 w-2 bg-[var(--ax-lime)] shadow-[0_0_14px_rgba(200,255,0,0.55)]" />
+                  <span className="font-geist text-[10px] uppercase tracking-[0.24em] text-[rgba(235,235,235,0.62)]">{project.status}</span>
+                </div>
+
+                <span className="absolute right-6 top-6 font-geist text-[10px] uppercase tracking-[0.24em] text-[rgba(200,255,0,0.58)] md:right-8 md:top-8">
+                  {project.code}
+                </span>
+
+                <div className="absolute inset-x-6 bottom-6 grid grid-cols-12 gap-3 md:inset-x-8 md:bottom-8">
+                  <div className="interface-fragment col-span-7 h-16 border border-[rgba(235,235,235,0.1)] bg-[rgba(6,6,6,0.44)]" />
+                  <div className="interface-fragment col-span-5 h-16 border border-[rgba(200,255,0,0.16)] bg-[rgba(200,255,0,0.035)]" />
+                  <div className="interface-fragment col-span-3 h-2 bg-[rgba(235,235,235,0.16)]" />
+                  <div className="interface-fragment col-span-2 h-2 bg-[rgba(200,255,0,0.34)]" />
+                  <div className="interface-fragment col-span-4 h-2 bg-[rgba(235,235,235,0.1)]" />
+                </div>
+
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-geist font-bold text-[var(--ax-muted)] text-3xl md:text-5xl tracking-widest uppercase opacity-20">
+                  <span className="font-geist text-4xl font-bold uppercase tracking-[0.18em] text-[rgba(235,235,235,0.12)] md:text-6xl">
                     {project.title.split(' ')[0]}
                   </span>
                 </div>
-              </div>
 
-              {/* Hover Lime Bottom Panel */}
-              <div className="absolute bottom-0 left-0 w-full h-3 bg-[var(--ax-lime)] transform translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 z-10" />
+                <div className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-[var(--ax-lime)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+              </div>
             </div>
 
-            {/* Metadata (Sharp, Outside Container) */}
-            <div className="metadata mt-6 md:mt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="metadata mt-5 flex flex-col gap-4 md:mt-7 md:flex-row md:items-center md:justify-between">
               <div>
-                <h3 className="font-geist font-semibold text-2xl md:text-3xl text-[var(--ax-text)] mb-2 tracking-tight">
+                <h3 className="font-geist text-2xl font-semibold tracking-tight text-[var(--ax-text)] md:text-3xl">
                   {project.title}
                 </h3>
-                <p className="font-geist text-sm text-[var(--ax-muted)] tracking-widest uppercase">
+                <p className="mt-2 font-geist text-xs uppercase tracking-[0.2em] text-[rgba(235,235,235,0.48)] md:text-sm">
                   {project.category}
                 </p>
               </div>
-              <div className="font-geist text-sm font-medium text-[var(--ax-muted)] px-4 py-2 border border-[var(--ax-border)] rounded-sm">
-                {project.year}
+              <div className="border px-4 py-2 font-geist text-[10px] font-medium uppercase tracking-[0.2em] text-[rgba(200,255,0,0.64)]" style={{ borderColor: 'rgba(235,235,235,0.12)' }}>
+                {project.status}
               </div>
             </div>
           </a>

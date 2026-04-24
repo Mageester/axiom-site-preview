@@ -21,6 +21,7 @@ export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const handoffRef = useRef<HTMLDivElement>(null);
+  const transitionRef = useRef<HTMLDivElement>(null);
   const canvasStateRef = useRef({ compression: 0, intensity: 0, scrollPulse: 0 });
 
   useEffect(() => {
@@ -34,7 +35,8 @@ export default function Hero() {
       gsap.set([eyebrowRef.current, subRef.current, ctaRef.current, scrollRef.current], { opacity: 0, y: 18 });
       gsap.set(headingRef.current, { scale: 1.025, transformOrigin: '0% 50%' });
       gsap.set(visualRef.current, { opacity: 0.72, x: 26 });
-      gsap.set(handoffRef.current, { scaleX: 0, transformOrigin: '0% 50%' });
+      gsap.set(handoffRef.current, { scaleY: 0, transformOrigin: '50% 100%' });
+      gsap.set(transitionRef.current, { opacity: 0 });
 
       const intro = gsap.timeline({ delay: 0.34 });
       intro
@@ -69,10 +71,8 @@ export default function Hero() {
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: '+=220%',
-          scrub: 0.9,
-          pin: true,
-          anticipatePin: 1,
+          end: 'bottom top',
+          scrub: 0.72,
           invalidateOnRefresh: true,
         },
       })
@@ -100,7 +100,7 @@ export default function Hero() {
         }, 0)
         .to(visualRef.current, {
           x: -34,
-          scaleX: 0.86,
+          scaleX: 0.9,
           scaleY: 1.04,
           transformOrigin: '78% 50%',
           ease: 'none',
@@ -112,10 +112,14 @@ export default function Hero() {
           scrollPulse: 1,
           ease: 'none',
         }, 0)
-        .to(handoffRef.current, {
-          scaleX: 1,
+        .to(transitionRef.current, {
+          opacity: 1,
           ease: 'none',
-        }, 0.36);
+        }, 0.2)
+        .to(handoffRef.current, {
+          scaleY: 1,
+          ease: 'none',
+        }, 0.48);
     }, heroRef);
 
     return () => ctx.revert();
@@ -328,7 +332,56 @@ export default function Hero() {
         <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
       </div>
 
-      <div ref={handoffRef} style={{ position: 'absolute', left: 0, bottom: 0, width: '100%', height: '2px', background: '#c8ff00', zIndex: 12, opacity: 0.92, boxShadow: '0 0 24px rgba(200,255,0,0.28)' }} />
+      <div ref={transitionRef} style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none', opacity: 0 }}>
+        <div
+          style={{
+            position: 'absolute',
+            inset: '9% 4% 8% 31%',
+            backgroundImage:
+              'linear-gradient(rgba(235,235,235,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(235,235,235,0.05) 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
+            maskImage: 'linear-gradient(90deg, transparent, #000 10%, #000 88%, transparent)',
+          }}
+        />
+        <div style={{ position: 'absolute', left: '32%', top: '18%', width: '48%', height: '1px', background: 'rgba(200,255,0,0.22)' }} />
+        <div style={{ position: 'absolute', left: '40%', top: '11%', width: '1px', height: '72%', background: 'rgba(235,235,235,0.06)' }} />
+        <div style={{ position: 'absolute', left: '58%', top: '11%', width: '1px', height: '72%', background: 'rgba(235,235,235,0.06)' }} />
+        <div style={{ position: 'absolute', left: '72%', top: '13%', width: '1px', height: '68%', background: 'rgba(200,255,0,0.12)' }} />
+        <div style={{ position: 'absolute', left: '35%', top: '76%', width: '40%', height: '1px', background: 'rgba(235,235,235,0.08)' }} />
+        <span style={{ position: 'absolute', left: '32%', top: '14%', fontSize: '9px', letterSpacing: '0.22em', color: 'rgba(200,255,0,0.48)', textTransform: 'uppercase' }}>PROCESSING / 03</span>
+        <span style={{ position: 'absolute', right: '9%', top: '19%', fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(235,235,235,0.22)', textTransform: 'uppercase' }}>GRID 43.12 / 79.08</span>
+        <span style={{ position: 'absolute', left: '40%', bottom: '17%', fontSize: '9px', letterSpacing: '0.18em', color: 'rgba(235,235,235,0.2)', textTransform: 'uppercase' }}>QUEUE: WORK INDEX</span>
+        {Array.from({ length: 8 }).map((_, idx) => (
+          <span
+            key={idx}
+            style={{
+              position: 'absolute',
+              left: `${48 + idx * 4.3}%`,
+              top: `${28 + (idx % 4) * 11}%`,
+              width: '3px',
+              height: '3px',
+              background: '#c8ff00',
+              opacity: 0.22,
+              boxShadow: '0 0 10px rgba(200,255,0,0.35)',
+            }}
+          />
+        ))}
+      </div>
+
+      <div
+        ref={handoffRef}
+        style={{
+          position: 'absolute',
+          right: '5vw',
+          bottom: 0,
+          width: '2px',
+          height: '100%',
+          background: '#c8ff00',
+          zIndex: 12,
+          opacity: 0.96,
+          boxShadow: '-18px 0 28px rgba(200,255,0,0.08), 0 0 26px rgba(200,255,0,0.36), 8px 0 18px rgba(200,255,0,0.12)',
+        }}
+      />
     </section>
   );
 }

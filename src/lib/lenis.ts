@@ -15,8 +15,7 @@ export function initLenis(): Lenis {
   lenisInstance = new Lenis({
     lerp: 0.08,           // Lower = more inertia/weight (0.08 is very fluid)
     smoothWheel: true,
-    smoothTouch: false,
-    normalizeWheel: true,
+    syncTouch: false,
   });
 
   // Wire Lenis into GSAP ticker — critical for ScrollTrigger sync

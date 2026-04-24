@@ -1,29 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { workProjects } from '../../lib/siteContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projects = [
-  {
-    title: 'Nails Studio Demo',
-    category: 'Beauty / Booking Experience',
-    status: 'LIVE DEMO',
-    code: 'AX-014',
-  },
-  {
-    title: 'Blackline Barber Co.',
-    category: 'Grooming / Local Brand System',
-    status: 'SYSTEM READY',
-    code: 'AX-027',
-  },
-  {
-    title: 'Aurelia Dental Studio',
-    category: 'Healthcare / Trust-First Website',
-    status: 'EDGE DEPLOYED',
-    code: 'AX-031',
-  },
-];
+const projects = workProjects.filter((project) => project.homepage);
 
 const headingLines = [['Selected', 'Work']];
 
@@ -61,11 +43,13 @@ export default function Work() {
         const metadata = card.querySelector('.metadata');
         const scanline = card.querySelector('.card-scanline');
         const fragments = card.querySelectorAll('.interface-fragment');
+        const proofLines = card.querySelectorAll('.proof-line');
 
         gsap.set(visualContainer, { clipPath: 'inset(0 100% 0 0)' });
         gsap.set(innerVisual, { scale: 1.08, x: '-10%', opacity: 0.72 });
         gsap.set(metadata, { opacity: 0, y: 18 });
-        gsap.set(fragments, { opacity: 0, x: -18 });
+        gsap.set(fragments, { clipPath: 'inset(0 100% 0 0)' });
+        gsap.set(proofLines, { scaleX: 0, transformOrigin: '0% 50%' });
         gsap.set(scanline, { xPercent: -120 });
 
         const tl = gsap.timeline({
@@ -93,12 +77,17 @@ export default function Work() {
             ease: 'power3.inOut',
           }, 0.18)
           .to(fragments, {
-            opacity: 1,
-            x: 0,
+            clipPath: 'inset(0 0% 0 0)',
             duration: 0.65,
             stagger: 0.055,
             ease: 'power3.out',
           }, 0.54)
+          .to(proofLines, {
+            scaleX: 1,
+            duration: 0.48,
+            stagger: 0.06,
+            ease: 'power3.out',
+          }, 0.64)
           .to(metadata, {
             opacity: 1,
             y: 0,
@@ -189,8 +178,21 @@ export default function Work() {
                 </span>
 
                 <div className="absolute inset-x-6 bottom-6 grid grid-cols-12 gap-3 md:inset-x-8 md:bottom-8">
-                  <div className="interface-fragment col-span-7 h-16 border border-[rgba(235,235,235,0.1)] bg-[rgba(6,6,6,0.44)]" />
-                  <div className="interface-fragment col-span-5 h-16 border border-[rgba(200,255,0,0.16)] bg-[rgba(200,255,0,0.035)]" />
+                  <div className="interface-fragment col-span-12 border border-[rgba(235,235,235,0.1)] bg-[rgba(6,6,6,0.56)] p-4 md:col-span-7">
+                    <div className="mb-4 flex items-center justify-between">
+                      <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(200,255,0,0.58)]">{project.niche}</span>
+                      <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(235,235,235,0.28)]">Conversion path</span>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="proof-line h-px w-full bg-[rgba(235,235,235,0.18)]" />
+                      <div className="proof-line h-px w-4/5 bg-[rgba(200,255,0,0.38)]" />
+                      <div className="proof-line h-px w-3/5 bg-[rgba(235,235,235,0.13)]" />
+                    </div>
+                  </div>
+                  <div className="interface-fragment col-span-12 border border-[rgba(200,255,0,0.18)] bg-[rgba(200,255,0,0.035)] p-4 md:col-span-5">
+                    <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(235,235,235,0.3)]">Axiom changed</span>
+                    <p className="mt-3 max-h-[60px] overflow-hidden font-geist text-xs leading-5 text-[rgba(235,235,235,0.62)]">{project.changed}</p>
+                  </div>
                   <div className="interface-fragment col-span-3 h-2 bg-[rgba(235,235,235,0.16)]" />
                   <div className="interface-fragment col-span-2 h-2 bg-[rgba(200,255,0,0.34)]" />
                   <div className="interface-fragment col-span-4 h-2 bg-[rgba(235,235,235,0.1)]" />
@@ -198,7 +200,7 @@ export default function Work() {
 
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="font-geist text-4xl font-bold uppercase tracking-[0.18em] text-[rgba(235,235,235,0.12)] md:text-6xl">
-                    {project.title.split(' ')[0]}
+                    {project.niche}
                   </span>
                 </div>
 
@@ -213,6 +215,9 @@ export default function Work() {
                 </h3>
                 <p className="mt-2 font-geist text-xs uppercase tracking-[0.2em] text-[rgba(235,235,235,0.48)] md:text-sm">
                   {project.category}
+                </p>
+                <p className="mt-3 max-w-2xl font-geist text-sm leading-6 text-[rgba(235,235,235,0.46)]">
+                  {project.result}
                 </p>
               </div>
               <div className="border px-4 py-2 font-geist text-[10px] font-medium uppercase tracking-[0.2em] text-[rgba(200,255,0,0.64)]" style={{ borderColor: 'rgba(235,235,235,0.12)' }}>

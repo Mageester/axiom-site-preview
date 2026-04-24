@@ -58,16 +58,21 @@ export default function Navbar() {
           height: '64px',
           background: scrolled ? 'rgba(6,6,6,0.92)' : 'transparent',
           backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          borderBottom: scrolled ? '1px solid var(--color-ax-border)' : '1px solid transparent',
+          borderBottom: scrolled ? '1px solid var(--ax-border)' : '1px solid transparent',
           transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
         }}
       >
-        {/* Logo */}
-        <a href="/" className="flex items-center gap-2 no-underline">
-          <span className="text-[var(--color-ax-lime)] text-lg leading-none select-none">◈</span>
+        <a href="/" className="flex items-center gap-3 no-underline" aria-label="Axiom Infrastructure home">
           <span
-            className="text-[var(--color-ax-text)] font-geist font-semibold tracking-widest"
-            style={{ fontSize: '14px', letterSpacing: '0.12em' }}
+            className="relative flex h-7 w-7 items-center justify-center overflow-hidden border"
+            style={{ borderColor: 'rgba(200,255,0,0.26)', background: 'rgba(200,255,0,0.025)' }}
+          >
+            <img src="/logoclear-320.webp" alt="" className="h-5 w-5 object-contain" style={{ opacity: 0.86 }} />
+            <span className="absolute inset-x-0 top-0 h-px" style={{ background: 'var(--ax-lime)' }} />
+          </span>
+          <span
+            className="text-[var(--ax-text)] font-geist font-semibold tracking-widest"
+            style={{ fontSize: '14px', letterSpacing: '0.12em', fontFamily: 'Geist, sans-serif' }}
           >
             AXIOM
           </span>
@@ -79,7 +84,7 @@ export default function Navbar() {
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="font-geist text-[var(--color-ax-muted)] hover:text-[var(--color-ax-text)] transition-colors duration-200"
+              className="font-geist text-[var(--ax-muted)] hover:text-[var(--ax-text)] transition-colors duration-200"
               style={{ fontSize: '13px', letterSpacing: '0.02em' }}
             >
               {link}
@@ -91,7 +96,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <a
             href="#contact"
-            className="hidden md:block bg-[var(--color-ax-lime)] text-[var(--color-ax-bg)] font-geist font-semibold hover:bg-[#d4ff33] transition-colors duration-150 rounded-none"
+            className="hidden md:block bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold hover:bg-[#d4ff33] transition-colors duration-150 rounded-none"
             style={{ fontSize: '12px', letterSpacing: '0.08em', padding: '10px 20px', borderRadius: '0' }}
           >
             Start a Project
@@ -104,21 +109,21 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             <span
-              className="block h-px bg-[var(--color-ax-text)] transition-all duration-300"
+              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
               style={{
                 width: '22px',
                 transform: menuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
               }}
             />
             <span
-              className="block h-px bg-[var(--color-ax-text)] transition-all duration-300"
+              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
               style={{
                 width: '22px',
                 opacity: menuOpen ? 0 : 1,
               }}
             />
             <span
-              className="block h-px bg-[var(--color-ax-text)] transition-all duration-300"
+              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
               style={{
                 width: '22px',
                 transform: menuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none',
@@ -131,14 +136,14 @@ export default function Navbar() {
       {/* Mobile overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-40 bg-[var(--color-ax-bg)] flex-col items-start justify-center px-8 gap-6"
+        className="fixed inset-0 z-40 bg-[var(--ax-bg)] flex-col items-start justify-center px-8 gap-6"
         style={{ display: 'none', clipPath: 'inset(0 0 100% 0)' }}
       >
         {navLinks.map(link => (
           <a
             key={link}
             href={`#${link.toLowerCase()}`}
-            className="mobile-link block font-geist font-medium text-[var(--color-ax-text)] no-underline"
+            className="mobile-link block font-geist font-medium text-[var(--ax-text)] no-underline"
             style={{ fontSize: '48px', letterSpacing: '-0.02em', lineHeight: 1.1 }}
             onClick={() => setMenuOpen(false)}
           >
@@ -147,7 +152,7 @@ export default function Navbar() {
         ))}
         <a
           href="#contact"
-          className="mobile-link mt-4 inline-block bg-[var(--color-ax-lime)] text-[var(--color-ax-bg)] font-geist font-semibold no-underline rounded-none"
+          className="mobile-link mt-4 inline-block bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold no-underline rounded-none"
           style={{ fontSize: '13px', letterSpacing: '0.08em', padding: '14px 28px', borderRadius: '0' }}
           onClick={() => setMenuOpen(false)}
         >

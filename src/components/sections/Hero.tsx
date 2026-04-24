@@ -138,8 +138,8 @@ export default function Hero() {
     const COLS = 28;
     const ROWS = 38;
     const DOT_R = 1.38;
-    const REACH = 132;
-    const SCAN_EVERY = 5200;
+    const REACH = 176;
+    const SCAN_EVERY = 4300;
 
     const setSize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -204,7 +204,7 @@ export default function Hero() {
           const scanDist = Math.abs(x - scanX) + Math.abs(y - H * 0.52) * 0.16;
           const scanT = Math.max(0, 1 - scanDist / scanWidth) * activeSweep;
           const edgeT = Math.max(0, 1 - Math.abs(x - W * 0.5) / (W * 0.62));
-          const t = Math.min(1, cursorT * 0.78 + scanT * 0.22 + scrollPulse * edgeT * 0.2);
+          const t = Math.min(1, cursorT * 0.9 + scanT * 0.32 + scrollPulse * edgeT * 0.24);
           const r = Math.round(30 + (200 - 30) * t);
           const g = Math.round(32 + (255 - 32) * t);
           const b = Math.round(28 * (1 - t));
@@ -219,7 +219,7 @@ export default function Hero() {
       if (activeSweep > 0.01) {
         const gradient = ctx.createLinearGradient(scanX - scanWidth, 0, scanX + scanWidth, 0);
         gradient.addColorStop(0, 'rgba(200,255,0,0)');
-        gradient.addColorStop(0.5, `rgba(200,255,0,${0.012 + intensity * 0.018})`);
+        gradient.addColorStop(0.5, `rgba(200,255,0,${0.02 + intensity * 0.025})`);
         gradient.addColorStop(1, 'rgba(200,255,0,0)');
         ctx.fillStyle = gradient;
         ctx.fillRect(scanX - scanWidth, 0, scanWidth * 2, H);
@@ -329,6 +329,20 @@ export default function Hero() {
 
       <div ref={visualRef} style={{ position: 'absolute', right: 0, top: 0, width: '54%', height: '100%', pointerEvents: 'none', zIndex: 0, willChange: 'transform, opacity' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, #060606 0%, rgba(6,6,6,0.64) 18%, rgba(6,6,6,0) 46%)', zIndex: 1 }} />
+        <img
+          src="/logoclear-320.webp"
+          alt=""
+          style={{
+            position: 'absolute',
+            right: '6%',
+            top: '50%',
+            width: 'min(48vw, 620px)',
+            transform: 'translateY(-50%)',
+            opacity: 0.075,
+            mixBlendMode: 'screen',
+            zIndex: 1,
+          }}
+        />
         <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
       </div>
 

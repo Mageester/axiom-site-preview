@@ -1,110 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --ax-bg: #060606;
-  --ax-surface: #0f0f0f;
-  --ax-border: #1c1c1c;
-  --ax-text: #ebebeb;
-  --ax-muted: #555555;
-  --ax-lime: #c8ff00;
+@theme {
+  --color-ax-bg: #060606;
+  --color-ax-surface: #0f0f0f;
+  --color-ax-border: #1c1c1c;
+  --color-ax-text: #ebebeb;
+  --color-ax-muted: #555555;
+  --color-ax-lime: #c8ff00;
+
+  --font-geist: "Geist", "Geist Fallback", sans-serif;
+
+  --tracking-tightest: -0.04em;
+  --tracking-tighter: -0.03em;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important;
 }
 
 html {
-  background: var(--ax-bg);
-  color: var(--ax-text);
-  font-family: 'Geist', 'Geist Fallback', system-ui, sans-serif;
+  background-color: var(--color-ax-bg);
+  color: var(--color-ax-text);
+  font-family: var(--font-geist);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 body {
-  background: var(--ax-bg);
+  background-color: var(--color-ax-bg);
   overscroll-behavior: none;
-  min-height: 100vh;
 }
 
+/* Text selection */
 ::selection {
-  background: var(--ax-lime);
-  color: var(--ax-bg);
+  background: var(--color-ax-lime);
+  color: var(--color-ax-bg);
 }
 
-::-webkit-scrollbar {
-  width: 2px;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--color-ax-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-ax-border); }
 
-::-webkit-scrollbar-track {
-  background: var(--ax-bg);
-}
+/* Custom cursor — hides default */
+* { cursor: none !important; }
 
-::-webkit-scrollbar-thumb {
-  background: var(--ax-border);
-}
-
+/* Word mask — the Lusion technique */
 .word-mask {
   overflow: hidden;
   display: inline-block;
-  vertical-align: bottom;
-  padding-bottom: 0.12em;
 }
 
-.reveal-word {
-  display: inline-block;
-  will-change: transform;
-}
-
+/* Grain overlay on hero */
 @keyframes grain {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  10% {
-    transform: translate(-2%, -3%);
-  }
-
-  20% {
-    transform: translate(3%, 2%);
-  }
-
-  30% {
-    transform: translate(-1%, 4%);
-  }
-
-  40% {
-    transform: translate(4%, -1%);
-  }
-
-  50% {
-    transform: translate(-3%, 3%);
-  }
-
-  60% {
-    transform: translate(2%, -4%);
-  }
-
-  70% {
-    transform: translate(-4%, 1%);
-  }
-
-  80% {
-    transform: translate(1%, -2%);
-  }
-
-  90% {
-    transform: translate(3%, 4%);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  10%       { transform: translate(-2%, -3%); }
+  20%       { transform: translate(3%, 2%); }
+  30%       { transform: translate(-1%, 4%); }
+  40%       { transform: translate(4%, -1%); }
+  50%       { transform: translate(-3%, 3%); }
+  60%       { transform: translate(2%, -4%); }
+  70%       { transform: translate(-4%, 1%); }
+  80%       { transform: translate(1%, -2%); }
+  90%       { transform: translate(3%, 4%); }
 }
 
 .grain::before {
@@ -113,25 +74,15 @@ body {
   inset: -200%;
   width: 400%;
   height: 400%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.035;
   pointer-events: none;
-  z-index: 99990;
+  z-index: 9999;
   animation: grain 8s steps(10) infinite;
 }
 
 @keyframes scrollLine {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(260%);
-  }
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(250%); }
 }

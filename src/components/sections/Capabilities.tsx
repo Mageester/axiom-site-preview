@@ -11,42 +11,37 @@ type Capability = {
 };
 
 const headingLines = [
-  ['SYSTEMS', 'THAT', 'MAKE'],
-  ['LOCAL', 'BUSINESSES'],
-  ['LOOK', 'SERIOUS.'],
+  ['WHAT', 'WE'],
+  ['BUILD.'],
 ];
 
 const stats = [
   { value: 90, suffix: '+', label: 'Lighthouse target' },
-  { value: 2, prefix: '<', suffix: 's', label: 'Load-time target' },
-  { value: 4, label: 'Core build systems' },
-  { value: 0, label: 'Template dependency' },
+  { value: 2, prefix: '<', suffix: 's', label: 'Load target' },
+  { value: 4, label: 'Core systems' },
+  { value: 0, label: 'Templates' },
 ];
 
 const capabilities: Capability[] = [
   {
     title: 'Websites & Features',
     label: 'Interface systems',
-    description:
-      'Custom React interfaces, conversion-focused pages, booking paths, quote flows, service pages, and local-business systems built to feel established from the first click.',
+    description: 'Conversion-focused pages, quote flows, booking paths, and service pages.',
   },
   {
     title: 'Visual Branding',
     label: 'Trust layer',
-    description:
-      'Sharp visual direction, typography, spacing, color systems, and web presence that make a business feel more trusted before the first conversation.',
+    description: 'Typography, spacing, color, and direction that make a business feel established.',
   },
   {
     title: 'AI Integration',
     label: 'Operational tools',
-    description:
-      'Internal tools, lead systems, automations, AI-assisted workflows, and practical business utilities designed around real operations — not gimmicks.',
+    description: 'Practical tools and workflows for real business operations.',
   },
   {
     title: 'Performance Audits',
     label: 'Technical cleanup',
-    description:
-      'Speed, accessibility, technical cleanup, mobile experience, SEO foundations, and interface reviews that expose what makes a site feel weak or slow.',
+    description: 'Speed, accessibility, mobile experience, and technical cleanup.',
   },
 ];
 
@@ -238,7 +233,7 @@ export default function Capabilities() {
           className="mt-8 max-w-2xl text-base leading-7 md:text-lg"
           style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}
         >
-          Axiom builds the visible layer customers judge first — and the technical layer that keeps it fast, sharp, and reliable.
+          Axiom builds the front-end trust layer and the systems behind it.
         </p>
       </div>
 

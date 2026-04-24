@@ -7,13 +7,14 @@ export default function Footer() {
     <footer className="ax-section-sm relative overflow-hidden border-t" style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}>
       <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-18%] right-[-8%] w-[78vw] max-w-[900px]" style={{ opacity: 0.04, mixBlendMode: 'screen' }} />
       <div className="pointer-events-none absolute left-0 top-0 h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,255,0,0.42), transparent)' }} />
-      <div className="ax-container relative z-10 grid gap-12 md:grid-cols-[1.35fr_0.65fr_0.75fr_0.65fr]">
-        <div>
-          <div className="max-w-[330px]">
-            <h2 className="text-xl font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Axiom Infrastructure</h2>
-            <div className="mt-6 h-px w-20" style={{ background: 'rgba(200,255,0,0.5)' }} />
-          </div>
-          <p className="mt-4 max-w-xs text-sm leading-6" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Websites built to convert. Not to decorate.</p>
+      <div className="ax-container relative z-10 grid gap-12 md:grid-cols-[1fr_0.4fr_0.4fr_0.4fr]">
+        <div className="max-w-xs">
+          <h3 className="text-xl font-bold tracking-tight" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
+            Axiom Infrastructure
+          </h3>
+          <p className="mt-5 text-sm leading-6" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+            Websites built to convert. Not to decorate.
+          </p>
         </div>
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'rgba(200,255,0,0.62)', fontFamily: 'Geist, sans-serif' }}>Pages</p>

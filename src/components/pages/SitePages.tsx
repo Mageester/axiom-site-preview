@@ -51,8 +51,11 @@ function RouteCTA() {
           <div>
             <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>START</p>
             <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
-              Build the system properly.
+              READY?
             </h2>
+            <p className="mt-4 text-base text-[rgba(235,235,235,0.72)] font-geist">
+              Tell us what the business needs. We’ll point you to the right path.
+            </p>
           </div>
           <Link className="ax-button" to="/start-a-project">
             Start a project
@@ -70,8 +73,8 @@ export function WorkPage() {
     <>
       <PageHero
         eyebrow="WORK"
-        title="Concept systems for serious local businesses."
-        copy="Seven demo concepts showing how Axiom turns unclear local-business websites into sharper proof, booking, quote, and trust systems."
+        title="Concept builds for serious local businesses."
+        copy="We build demo systems to show how different industries can look sharper, load faster, and convert more clearly."
       />
 
       <section className="ax-section-sm">
@@ -81,7 +84,7 @@ export function WorkPage() {
               Featured concepts
             </h2>
             <p className="ax-section-copy" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
-              Homepage proof stays focused on the three clearest demo systems: beauty, grooming, and healthcare.
+              Three of the clearest demo systems built for beauty, grooming, and healthcare.
             </p>
           </div>
 
@@ -97,7 +100,7 @@ export function WorkPage() {
                   <div className="ax-stack-sm">
                     <p className="text-lg leading-8" style={{ color: 'rgba(235,235,235,0.68)', fontFamily: 'Geist, sans-serif' }}>{project.summary}</p>
                     <a href={project.demoHref} className="w-fit text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
-                      View concept
+                      View demo
                     </a>
                   </div>
                 </div>
@@ -110,9 +113,9 @@ export function WorkPage() {
       <section className="ax-section">
         <div className="ax-container ax-stack">
           <div>
-            <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>FULL INDEX</p>
+            <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>ALL WORK</p>
             <h2 className="mt-6 ax-section-heading font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
-              Seven business systems. No tiny cards.
+              Seven business systems.
             </h2>
           </div>
 
@@ -156,8 +159,8 @@ export function PricingPage() {
     <>
       <PageHero
         eyebrow="PRICING"
-        title="Real pricing. Clear paths."
-        copy="Monthly keeps the upfront cost low. Ownership gives you the keys from day one. Larger rebuilds get scoped cleanly."
+        title="Clear paths. No vague packages."
+        copy="Choose the model that fits the business. Monthly lowers the upfront cost. Ownership gives full control. Larger builds get scoped before work starts."
       />
 
       <section className="ax-section-sm">
@@ -185,7 +188,7 @@ export function PricingPage() {
 
       <section className="ax-section">
         <div className="ax-container ax-stack">
-          <h2 className="ax-section-heading font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Comparison without the table squeeze.</h2>
+          <h2 className="ax-section-heading font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>What changes between paths.</h2>
           <div className="grid gap-4">
             {pricingComparison.map(([label, subscription, ownership, custom]) => (
               <div key={label} className="grid gap-4 border p-5 md:grid-cols-[0.8fr_1fr_1fr_1fr] md:p-6" style={{ borderColor: 'var(--ax-border)', background: 'rgba(15,15,15,0.72)' }}>
@@ -222,8 +225,8 @@ export function ProcessPage() {
     <>
       <PageHero
         eyebrow="PROCESS"
-        title="Review. Scope. Build. Launch."
-        copy="Most focused sites launch in 2-4 weeks depending on scope, content readiness, and feedback speed."
+        title="A clean build from first review to launch."
+        copy="No guessing halfway through. We define the structure, build the system, and launch with checks."
       />
       <section className="ax-section-sm">
         <div className="ax-container ax-stack">
@@ -231,24 +234,38 @@ export function ProcessPage() {
             <article key={step.title} className="border-t py-10 md:py-14" style={{ borderColor: 'var(--ax-border)' }}>
               <div className="grid gap-8 lg:grid-cols-[0.45fr_1fr]">
                 <div>
-                  <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>{String(index + 1).padStart(2, '0')} / {step.signal}</p>
+                  <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>{String(index + 1).padStart(2, '0')} / {step.title.toUpperCase()}</p>
                   <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>{step.title}</h2>
                 </div>
-                <div className="grid gap-6 md:grid-cols-3">
-                  {[
-                    ['Stage', step.body],
-                    ['Client provides', step.client],
-                    ['Axiom handles', step.axiom],
-                  ].map(([label, text]) => (
-                    <div key={label}>
-                      <p className="ax-label" style={{ color: 'rgba(235,235,235,0.36)', fontFamily: 'Geist, sans-serif' }}>{label}</p>
-                      <p className="mt-4 text-base leading-7" style={{ color: 'rgba(235,235,235,0.64)', fontFamily: 'Geist, sans-serif' }}>{text}</p>
+                <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
+                  <p className="text-base leading-7" style={{ color: 'rgba(235,235,235,0.8)', fontFamily: 'Geist, sans-serif' }}>{step.body}</p>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <div>
+                      <p className="ax-label" style={{ color: 'rgba(235,235,235,0.36)', fontFamily: 'Geist, sans-serif' }}>Client provides / approvals</p>
+                      <p className="mt-4 text-sm leading-6" style={{ color: 'rgba(235,235,235,0.64)', fontFamily: 'Geist, sans-serif' }}>{step.client}</p>
                     </div>
-                  ))}
+                    <div>
+                      <p className="ax-label" style={{ color: 'rgba(235,235,235,0.36)', fontFamily: 'Geist, sans-serif' }}>Axiom handles</p>
+                      <p className="mt-4 text-sm leading-6" style={{ color: 'rgba(235,235,235,0.64)', fontFamily: 'Geist, sans-serif' }}>{step.axiom}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
           ))}
+          <article className="border-t py-10 md:py-14" style={{ borderColor: 'var(--ax-border)' }}>
+            <div className="grid gap-8 lg:grid-cols-[0.45fr_1fr]">
+              <div>
+                <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>05 / SUPPORT</p>
+                <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Support</h2>
+              </div>
+              <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
+                <p className="text-base leading-7" style={{ color: 'rgba(235,235,235,0.8)', fontFamily: 'Geist, sans-serif' }}>
+                  Monthly clients keep support after launch. Ownership clients get a clean handoff.
+                </p>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
       <RouteCTA />
@@ -261,14 +278,11 @@ export function AboutPage() {
     <>
       <PageHero
         eyebrow="ABOUT"
-        title="Web infrastructure for serious local businesses."
-        copy="Axiom builds high-performance websites, brand systems, and practical AI/business tools that make companies look established before the first call."
+        title="A web infrastructure studio for serious local businesses."
+        copy="Axiom builds fast websites, sharp brand systems, and practical tools for companies that need to look established online."
       />
       <section className="ax-section-sm">
         <div className="ax-container ax-stack">
-          <p className="max-w-4xl text-3xl font-semibold leading-tight tracking-[-0.04em] md:text-6xl" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
-            The site is not decoration. It is the first proof layer customers judge.
-          </p>
           <div className="grid gap-5 md:grid-cols-2">
             {aboutPrinciples.map(([title, body], index) => (
               <article key={title} className="border p-7 md:p-9" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
@@ -304,22 +318,30 @@ export function StartProjectPage() {
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!values.name || !values.email || !values.business || !values.context) {
-      setError('Please add your name, email, business name, and project context.');
+    if (!values.name) {
+      setError('Please enter your name.');
+      return;
+    }
+    if (!values.email || !/^\S+@\S+\.\S+$/.test(values.email)) {
+      setError('Please enter a valid email.');
+      return;
+    }
+    if (!values.context) {
+      setError('Please tell us what needs to be built.');
       return;
     }
 
     setError('');
-    const subject = encodeURIComponent(`Project inquiry - ${values.business}`);
+    const subject = encodeURIComponent(`Project inquiry - ${values.business || values.name}`);
     const body = encodeURIComponent(
       [
         `Name: ${values.name}`,
         `Email: ${values.email}`,
-        `Business: ${values.business}`,
-        `Website: ${values.website || 'None provided'}`,
+        `Business: ${values.business || 'N/A'}`,
+        `Website: ${values.website || 'N/A'}`,
         `Project path: ${values.path}`,
-        `Timeline: ${values.timeline || 'Not specified'}`,
-        `Budget: ${values.budget || 'Not specified'}`,
+        `Timeline: ${values.timeline || 'N/A'}`,
+        `Budget: ${values.budget || 'N/A'}`,
         '',
         'What needs to be built or fixed:',
         values.context,
@@ -333,7 +355,7 @@ export function StartProjectPage() {
       <PageHero
         eyebrow="START"
         title="Tell us what needs to be built."
-        copy="A short intake keeps the first conversation useful. If the path is not obvious, choose Not sure yet."
+        copy="Answer a few details. We’ll use them to point you to the right path."
       />
       <section className="ax-section-sm">
         <div className="ax-container">
@@ -345,36 +367,46 @@ export function StartProjectPage() {
             )}
 
             <fieldset className="grid gap-6 border p-6 md:grid-cols-2 md:p-8" style={{ borderColor: 'var(--ax-border)' }}>
-              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>01 / Business</legend>
+              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Step 1: Business details</legend>
               <FormField label="Name" value={values.name} onChange={(value) => update('name', value)} required />
               <FormField label="Email" value={values.email} onChange={(value) => update('email', value)} type="email" required />
-              <FormField label="Business name" value={values.business} onChange={(value) => update('business', value)} required />
-              <FormField label="Website URL if any" value={values.website} onChange={(value) => update('website', value)} />
+              <FormField label="Business name" value={values.business} onChange={(value) => update('business', value)} />
+              <FormField label="Current website" value={values.website} onChange={(value) => update('website', value)} />
             </fieldset>
 
             <fieldset className="grid gap-4 border p-6 md:grid-cols-4 md:p-8" style={{ borderColor: 'var(--ax-border)' }}>
-              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>02 / Project path</legend>
-              {['Subscription', 'Ownership Build', 'E-commerce / Rebuild', 'Not sure yet'].map((path) => (
-                <label key={path} className="border p-4 text-sm leading-6" style={{ borderColor: values.path === path ? 'rgba(200,255,0,0.58)' : 'var(--ax-border)', color: 'rgba(235,235,235,0.72)', fontFamily: 'Geist, sans-serif' }}>
+              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Step 2: Project path</legend>
+              {['Subscription', 'Ownership Build', 'Custom Build', 'Not sure yet'].map((path) => (
+                <label key={path} className="border p-4 text-sm leading-6 cursor-pointer" style={{ borderColor: values.path === path ? 'rgba(200,255,0,0.58)' : 'var(--ax-border)', color: 'rgba(235,235,235,0.72)', fontFamily: 'Geist, sans-serif' }}>
                   <input className="mr-3" type="radio" name="path" value={path} checked={values.path === path} onChange={(event) => update('path', event.target.value)} />
                   {path}
                 </label>
               ))}
+              <div className="md:col-span-4 mt-2">
+                <p className="text-[11px] uppercase tracking-[0.1em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+                  Pick the closest option. We can adjust it later.
+                </p>
+              </div>
             </fieldset>
 
             <fieldset className="grid gap-6 border p-6 md:grid-cols-2 md:p-8" style={{ borderColor: 'var(--ax-border)' }}>
-              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>03 / Context</legend>
+              <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Step 3: Timeline and context</legend>
               <FormField label="Timeline" value={values.timeline} onChange={(value) => update('timeline', value)} />
               <FormField label="Budget range" value={values.budget} onChange={(value) => update('budget', value)} />
               <label className="grid gap-3 md:col-span-2" style={{ color: 'rgba(235,235,235,0.66)', fontFamily: 'Geist, sans-serif' }}>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">What needs to be built or fixed</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">What needs to be built or fixed?</span>
                 <textarea value={values.context} onChange={(event) => update('context', event.target.value)} required rows={7} className="border bg-transparent p-4 text-base leading-7 outline-none" style={{ borderColor: 'var(--ax-border)', color: 'var(--ax-text)', borderRadius: 0 }} />
               </label>
             </fieldset>
 
-            <button type="submit" className="ax-button w-fit">
-              Submit project brief
-            </button>
+            <div className="flex flex-col gap-3">
+              <button type="submit" className="ax-button w-fit">
+                Open email draft
+              </button>
+              <p className="text-[11px] uppercase tracking-[0.1em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+                This opens your email app with the project details filled in.
+              </p>
+            </div>
           </form>
         </div>
       </section>
@@ -408,14 +440,17 @@ export function ContactPage() {
     <>
       <PageHero
         eyebrow="CONTACT"
-        title="Start with the business problem."
-        copy="Send the context, timeline, and path you are considering. We will point you toward monthly, ownership, or a scoped build."
+        title="Start with the problem."
+        copy="Send the site, the business, or the thing that needs fixing."
       />
       <section className="ax-section-sm">
         <div className="ax-container grid gap-6 md:grid-cols-3">
           <a className="border p-7" href="mailto:contact@getaxiom.ca" style={{ borderColor: 'var(--ax-border)', color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>contact@getaxiom.ca</a>
           <a className="border p-7" href="tel:+12267531833" style={{ borderColor: 'var(--ax-border)', color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>(226) 753-1833</a>
-          <Link className="border p-7" to="/start-a-project" style={{ borderColor: 'rgba(200,255,0,0.44)', color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Start a project</Link>
+          <div className="border p-7" style={{ borderColor: 'var(--ax-border)' }}>
+            <Link className="text-[14px] font-semibold uppercase tracking-[0.16em]" to="/start-a-project" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Start a project</Link>
+            <p className="mt-4 text-sm leading-6" style={{ color: 'rgba(235,235,235,0.62)', fontFamily: 'Geist, sans-serif' }}>For project requests, use the intake form so we have the details upfront.</p>
+          </div>
         </div>
       </section>
     </>

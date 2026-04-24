@@ -43,7 +43,7 @@ export default function FinalCTA() {
         </h2>
         <div ref={contentRef} className="mt-14 grid gap-10 md:grid-cols-[0.85fr_1fr] md:items-end">
           <p className="max-w-2xl text-xl leading-8 md:text-2xl" style={{ color: 'rgba(235,235,235,0.72)', fontFamily: 'Geist, sans-serif' }}>
-            Tell us what the business needs. We’ll point you to the right path — monthly, ownership, or scoped build.
+            Tell us what the business needs. We’ll point you to the right path.
           </p>
           <div className="flex flex-col gap-5 md:items-start">
             <Link to="/start-a-project" className="inline-flex w-fit items-center gap-5 px-7 py-4 text-[12px] font-semibold uppercase tracking-[0.16em]" style={{ background: 'var(--ax-lime)', color: 'var(--ax-bg)', fontFamily: 'Geist, sans-serif', borderRadius: 0 }}>

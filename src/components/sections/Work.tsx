@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = workProjects.filter((project) => project.homepage);
 
-const headingLines = [['Selected', 'Work']];
+const headingLines = [['Built', 'to', 'make'], ['businesses', 'look', 'serious.']];
 
 export default function Work() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -110,32 +110,33 @@ export default function Work() {
       }}
     >
       <div className="ax-container">
-      <div className="mb-[var(--content-gap)] flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <h2
-          ref={headingRef}
-          className="font-geist font-bold"
-          style={{
-            fontSize: 'clamp(44px, 5.4vw, 84px)',
-            letterSpacing: '-0.04em',
-            lineHeight: 0.94,
-            color: '#ebebeb',
-          }}
-        >
-          {headingLines.map((line, li) => (
-            <span key={li} className="block">
-              {line.map((word, wi) => (
-                <span key={wi} className="word-mask" style={{ marginRight: '0.22em' }}>
-                  <span className="reveal-word block">{word}</span>
-                </span>
-              ))}
-            </span>
-          ))}
-        </h2>
-
-        <div className="hidden md:block text-right">
-          <p className="font-geist text-[10px] uppercase tracking-[0.24em] text-[rgba(200,255,0,0.55)]">Work Index / Loaded</p>
-          <p className="mt-2 font-geist text-xs uppercase tracking-[0.22em] text-[rgba(235,235,235,0.28)]">03 client systems</p>
+      <div className="mb-[var(--content-gap)] grid gap-8 md:grid-cols-[1fr_0.5fr] md:items-end">
+        <div>
+          <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>SELECTED WORK</p>
+          <h2
+            ref={headingRef}
+            className="font-geist font-bold"
+            style={{
+              fontSize: 'clamp(44px, 5.4vw, 84px)',
+              letterSpacing: '-0.04em',
+              lineHeight: 0.94,
+              color: '#ebebeb',
+            }}
+          >
+            {headingLines.map((line, li) => (
+              <span key={li} className="block">
+                {line.map((word, wi) => (
+                  <span key={wi} className="word-mask" style={{ marginRight: '0.22em' }}>
+                    <span className="reveal-word block">{word}</span>
+                  </span>
+                ))}
+              </span>
+            ))}
+          </h2>
         </div>
+        <p className="text-base leading-7" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+          Concept builds for local businesses that need clearer offers, stronger trust, and better booking paths.
+        </p>
       </div>
 
       <div className="flex flex-col gap-[var(--content-gap-lg)]">
@@ -143,7 +144,6 @@ export default function Work() {
           <a
             key={project.title}
             href={`#project-${idx}`}
-            data-cursor="view"
             className="work-card group block w-full no-underline"
           >
             <div className="visual-container relative overflow-hidden border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)', minHeight: 'clamp(320px, 42vw, 560px)' }}>
@@ -216,11 +216,11 @@ export default function Work() {
                   {project.category}
                 </p>
                 <p className="mt-3 max-w-2xl font-geist text-sm leading-6 text-[rgba(235,235,235,0.46)]">
-                  {project.result}
+                  {project.summary}
                 </p>
               </div>
-              <div className="border px-4 py-2 font-geist text-[10px] font-medium uppercase tracking-[0.2em] text-[rgba(200,255,0,0.64)]" style={{ borderColor: 'rgba(235,235,235,0.12)' }}>
-                {project.status}
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
+                View <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
               </div>
             </div>
           </a>

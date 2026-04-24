@@ -303,20 +303,19 @@ export default function Hero() {
         </h1>
 
         <p ref={subRef} style={{ marginTop: '30px', fontFamily: 'Geist, sans-serif', fontSize: '14px', letterSpacing: '0.02em', lineHeight: 1.7, color: '#555555', opacity: 0 }}>
-          High-performance web and AI systems.<br />
-          Kitchener-Waterloo, Ontario.
+          Sharp websites and business systems built to earn trust before the first call.
         </p>
 
         <div ref={ctaRef} style={{ marginTop: '32px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '18px 28px', opacity: 0, willChange: 'transform' }}>
           <a href="#contact" style={{ display: 'inline-block', background: '#c8ff00', color: '#060606', fontFamily: 'Geist, sans-serif', fontWeight: 600, fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '14px 28px', borderRadius: 0, textDecoration: 'none', transition: 'background 0.15s ease' }}
             onMouseEnter={e => (e.currentTarget.style.background = '#d4ff33')}
             onMouseLeave={e => (e.currentTarget.style.background = '#c8ff00')}>
-            Start a Project
+            Start a project
           </a>
           <a href="#work" style={{ fontFamily: 'Geist, sans-serif', fontSize: '13px', letterSpacing: '0.03em', color: '#555555', textDecoration: 'underline', textUnderlineOffset: '5px', transition: 'color 0.2s ease' }}
             onMouseEnter={e => (e.currentTarget.style.color = '#ebebeb')}
             onMouseLeave={e => (e.currentTarget.style.color = '#555555')}>
-            View Work
+            View work
           </a>
         </div>
 

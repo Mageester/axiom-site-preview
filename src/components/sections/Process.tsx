@@ -5,7 +5,7 @@ import { processSteps } from '../../lib/siteContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const headingLines = [['FOUR', 'STAGES.'], ['NO', 'DRIFT.']];
+const headingLines = [['REVIEW.', 'SCOPE.'], ['BUILD.', 'LAUNCH.']];
 
 const steps = processSteps;
 
@@ -100,7 +100,7 @@ export default function Process() {
           ))}
         </h2>
         <p className="mt-8 max-w-2xl text-base leading-7 md:text-lg" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
-          We review what is costing trust, lock the pages and call paths, build the system, then launch with checks instead of guesswork.
+          A clear build process with no guessing halfway through.
         </p>
       </div>
 

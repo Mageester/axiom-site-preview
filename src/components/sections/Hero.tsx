@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// The heading split into lines, then words
-// Each word gets wrapped in a mask div by our GSAP setup
+gsap.registerPlugin(ScrollTrigger);
+
 const headingLines = [
   ['We', 'build', 'digital'],
   ['infrastructure', 'for'],
@@ -10,191 +11,138 @@ const headingLines = [
 ];
 
 export default function Hero() {
-  const heroRef    = useRef<HTMLElement>(null);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const subRef     = useRef<HTMLParagraphElement>(null);
-  const ctaRef     = useRef<HTMLDivElement>(null);
-  const scrollRef  = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const eyebrowRef = useRef<HTMLDivElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // ─── Word reveal animation ───────────────────────────────────────
+  // Word mask reveal
   useEffect(() => {
-    if (!heroRef.current) return;
-    const words = heroRef.current.querySelectorAll('.reveal-word');
-
-    // Set initial state — words below their container
+    const words = heroRef.current?.querySelectorAll('.reveal-word');
+    if (!words?.length) return;
     gsap.set(words, { y: '105%' });
-
-    // Animate each word up, staggered
-    gsap.to(words, {
-      y: '0%',
-      duration: 1.0,
-      ease: 'power4.out',
-      stagger: 0.08,
-      delay: 0.5,
-    });
+    const tl = gsap.timeline({ delay: 0.4 });
+    tl.to(words, { y: '0%', duration: 1.1, ease: 'power4.out', stagger: 0.075 });
+    return () => { tl.kill(); };
   }, []);
 
-  // ─── Sub-label + CTA reveal ───────────────────────────────────────
+  // Eyebrow + sub + cta + scroll reveal
   useEffect(() => {
-    gsap.set([subRef.current, ctaRef.current, scrollRef.current], {
-      opacity: 0,
-      y: 16,
-    });
-
-    gsap.to(subRef.current, {
-      opacity: 1, y: 0,
-      duration: 0.7,
-      ease: 'power3.out',
-      delay: 1.2,
-    });
-
-    gsap.to(ctaRef.current, {
-      opacity: 1, y: 0,
-      duration: 0.6,
-      ease: 'power3.out',
-      delay: 1.5,
-    });
-
-    gsap.to(scrollRef.current, {
-      opacity: 1, y: 0,
-      duration: 0.6,
-      ease: 'power3.out',
-      delay: 1.8,
-    });
+    gsap.set([eyebrowRef.current, subRef.current, ctaRef.current, scrollRef.current], { opacity: 0, y: 20 });
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0)
+      .to(subRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 1.1)
+      .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 1.35)
+      .to(scrollRef.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 1.6);
+    return () => { tl.kill(); };
   }, []);
 
-  // ─── Dot grid canvas ─────────────────────────────────────────────
+  // Scroll parallax on heading
   useEffect(() => {
-    const canvas  = canvasRef.current;
+    if (!headingRef.current) return;
+    const st = ScrollTrigger.create({
+      trigger: heroRef.current,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+      onUpdate: (self) => {
+        gsap.set(headingRef.current, {
+          y: self.progress * -80,
+          opacity: 1 - self.progress * 1.5,
+        });
+      },
+    });
+    return () => { st.kill(); };
+  }, []);
+
+  // Dot grid canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx     = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let mouse     = { x: -999, y: -999 };
+    const mouse = { x: -9999, y: -9999 };
     let animFrame: number;
+    let running = true;
+    const COLS = 24, ROWS = 34, DOT_R = 1.6, REACH = 140;
 
-    const COLS    = 22;
-    const ROWS    = 32;
-    const RADIUS  = 1.8;
-    
-    let GAP_X = 0;
-    let GAP_Y = 0;
-    
-    const REACH   = 130;
-
-    // Resize handler
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      GAP_X = canvas.offsetWidth / COLS;
-      GAP_Y = canvas.offsetHeight / ROWS;
+    const setSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
     };
-    resize();
-    window.addEventListener('resize', resize);
 
-    // Mouse tracking — relative to canvas
+    requestAnimationFrame(setSize);
+    window.addEventListener('resize', setSize);
+
     const onMouseMove = (e: MouseEvent) => {
-      const rect  = canvas.getBoundingClientRect();
-      mouse.x     = e.clientX - rect.left;
-      mouse.y     = e.clientY - rect.top;
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     };
     window.addEventListener('mousemove', onMouseMove);
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+      if (!running) return;
+      const rect = canvas.getBoundingClientRect();
+      const W = rect.width, H = rect.height;
+      ctx.clearRect(0, 0, W, H);
+      const gapX = W / COLS, gapY = H / ROWS;
       for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
-          const x    = GAP_X * col + GAP_X / 2;
-          const y    = GAP_Y * row + GAP_Y / 2;
+          const x = gapX * col + gapX / 2;
+          const y = gapY * row + gapY / 2;
           const dist = Math.hypot(mouse.x - x, mouse.y - y);
-          const t    = Math.max(0, 1 - dist / REACH); // 0→1
-
-          // Interpolate between base color and lime
-          const baseR = 28,  baseG = 28,  baseB = 28;   // #1c1c1c
-          const limeR = 200, limeG = 255, limeB = 0;    // #c8ff00
-
-          const r = Math.round(baseR + (limeR - baseR) * t);
-          const g = Math.round(baseG + (limeG - baseG) * t);
-          const b = Math.round(baseB + (limeB - baseB) * t);
-
+          const t = Math.max(0, 1 - dist / REACH);
+          const r = Math.round(28 + (200 - 28) * t);
+          const g = Math.round(28 + (255 - 28) * t);
+          const b = Math.round(28 + (0 - 28) * t);
           ctx.beginPath();
-          ctx.arc(x, y, RADIUS + t * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgb(${r},${g},${b})`;
-          ctx.globalAlpha = 0.4 + t * 0.6;
+          ctx.arc(x, y, DOT_R + t * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r},${g},${b},${0.35 + t * 0.65})`;
           ctx.fill();
-          ctx.globalAlpha = 1;
         }
       }
-
       animFrame = requestAnimationFrame(draw);
     };
-    draw();
 
-    // Fade canvas in (Removed)
-    // gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 1.2, delay: 1.6 });
+    requestAnimationFrame(draw);
 
     return () => {
+      running = false;
       cancelAnimationFrame(animFrame);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', setSize);
       window.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
   return (
-    <section
-      ref={heroRef}
-      id="hero"
-      className="relative flex min-h-screen items-center overflow-hidden"
-      style={{ paddingTop: '64px' }} /* navbar height */
-    >
-      {/* ── Left content ── */}
-      <div 
-        className="relative z-10 w-full lg:w-1/2" 
-        style={{ paddingLeft: 'clamp(24px, 6vw, 96px)', paddingRight: 'clamp(24px, 6vw, 96px)' }}
-      >
+    <section ref={heroRef} id="hero" style={{ position: 'relative', display: 'flex', minHeight: '100vh', alignItems: 'center', overflow: 'hidden', paddingTop: '64px' }}>
 
-        {/* Eyebrow */}
-        <div
-          className="mb-8 overflow-hidden"
-          style={{ opacity: 0 }}
-          ref={el => { if (el) gsap.to(el, { opacity: 1, duration: 0.5, delay: 0.3 }) }}
-        >
-          <span
-            className="font-geist text-[var(--color-ax-muted)]"
-            style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase' }}
-          >
+      {/* Left content */}
+      <div ref={eyebrowRef as any} style={{ position: 'relative', zIndex: 10, width: '100%', paddingLeft: 'clamp(32px, 7vw, 108px)', paddingRight: 'clamp(32px, 4vw, 64px)' }} className="lg:w-1/2">
+
+        <div ref={eyebrowRef} style={{ marginBottom: '40px', opacity: 0 }}>
+          <span style={{ fontFamily: 'Geist, sans-serif', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#555555' }}>
             Web & AI Agency · KW Ontario
           </span>
         </div>
 
-        {/* ── HEADING — word mask reveal ── */}
-        <h1
-          className="font-geist font-bold"
-          style={{
-            fontSize: 'clamp(48px, 6.5vw, 92px)',
-            letterSpacing: '-0.04em',
-            lineHeight: 0.95,
-            color: '#ebebeb',
-          }}
-        >
+        <h1 ref={headingRef} style={{ fontFamily: 'Geist, sans-serif', fontWeight: 700, fontSize: 'clamp(52px, 6.8vw, 96px)', letterSpacing: '-0.04em', lineHeight: 0.93, color: '#ebebeb', willChange: 'transform, opacity' }}>
           {headingLines.map((line, li) => (
-            <span key={li} className="block">
+            <span key={li} style={{ display: 'block' }}>
               {line.map((word, wi) => {
-                const text    = typeof word === 'string' ? word : word.text;
-                const accent  = typeof word === 'object' && word.accent;
+                const text = typeof word === 'string' ? word : word.text;
+                const accent = typeof word === 'object' && word.accent;
                 return (
-                  // The outer div is the MASK — overflow: hidden clips the word
-                  <span
-                    key={wi}
-                    className="word-mask"
-                    style={{ marginRight: '0.25em' }}
-                  >
-                    {/* The inner span is the WORD — starts at y:105%, GSAP moves it to 0 */}
-                    <span
-                      className="reveal-word inline-block"
-                      style={{ color: accent ? '#a8e000' : 'inherit' }}
-                    >
+                  <span key={wi} className="word-mask" style={{ marginRight: '0.22em' }}>
+                    <span className="reveal-word" style={{ color: accent ? '#c8ff00' : 'inherit' }}>
                       {text}
                     </span>
                   </span>
@@ -204,72 +152,34 @@ export default function Hero() {
           ))}
         </h1>
 
-        {/* Sub-label */}
-        <p
-          ref={subRef}
-          className="mt-8 font-geist text-[var(--color-ax-muted)]"
-          style={{ fontSize: '14px', letterSpacing: '0.02em', lineHeight: 1.6 }}
-        >
+        <p ref={subRef} style={{ marginTop: '36px', fontFamily: 'Geist, sans-serif', fontSize: '14px', letterSpacing: '0.02em', lineHeight: 1.7, color: '#555555', opacity: 0 }}>
           High-performance web and AI systems.<br />
           Kitchener-Waterloo, Ontario.
         </p>
 
-        {/* CTAs */}
-        <div
-          ref={ctaRef}
-          className="mt-10 flex items-center gap-6"
-        >
-          <a
-            href="#contact"
-            className="bg-[var(--color-ax-lime)] text-[var(--color-ax-bg)] font-geist font-semibold hover:bg-[#d4ff33] transition-colors duration-150 inline-block no-underline rounded-none"
-            style={{ fontSize: '12px', letterSpacing: '0.08em', padding: '13px 26px', borderRadius: '0' }}
-          >
+        <div ref={ctaRef} style={{ marginTop: '44px', display: 'flex', alignItems: 'center', gap: '28px', opacity: 0 }}>
+          <a href="#contact" style={{ display: 'inline-block', background: '#c8ff00', color: '#060606', fontFamily: 'Geist, sans-serif', fontWeight: 600, fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '14px 28px', borderRadius: 0, textDecoration: 'none', transition: 'background 0.15s ease' }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#d4ff33')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#c8ff00')}>
             Start a Project
           </a>
-          <a
-            href="#work"
-            className="font-geist text-[var(--color-ax-muted)] hover:text-[var(--color-ax-text)] transition-colors duration-200"
-            style={{ fontSize: '13px', letterSpacing: '0.02em', textDecoration: 'underline', textUnderlineOffset: '4px' }}
-          >
+          <a href="#work" style={{ fontFamily: 'Geist, sans-serif', fontSize: '13px', letterSpacing: '0.03em', color: '#555555', textDecoration: 'underline', textUnderlineOffset: '5px', transition: 'color 0.2s ease' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#ebebeb')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#555555')}>
             View Work
           </a>
         </div>
 
-        {/* Scroll indicator */}
-        <div
-          ref={scrollRef}
-          className="absolute bottom-10 left-8 md:left-16 flex flex-col items-center gap-3"
-        >
-          <span
-            className="font-geist text-[#333333]"
-            style={{ fontSize: '10px', letterSpacing: '0.2em', writingMode: 'vertical-lr' }}
-          >
-            SCROLL
-          </span>
-          <div className="relative h-10 w-px overflow-hidden bg-[var(--color-ax-border)]">
-            <div
-              className="absolute top-0 left-0 w-full bg-[var(--color-ax-lime)]"
-              style={{
-                height: '40%',
-                animation: 'scrollLine 2s ease-in-out infinite',
-              }}
-            />
+        <div ref={scrollRef} style={{ position: 'absolute', bottom: '40px', left: 'clamp(32px, 7vw, 108px)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', opacity: 0 }}>
+          <span style={{ fontFamily: 'Geist, sans-serif', fontSize: '9px', letterSpacing: '0.25em', color: '#2a2a2a', writingMode: 'vertical-lr', textTransform: 'uppercase' }}>Scroll</span>
+          <div style={{ position: 'relative', width: '1px', height: '48px', background: '#1c1c1c', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '40%', background: '#c8ff00', animation: 'scrollLine 2s ease-in-out infinite' }} />
           </div>
         </div>
       </div>
 
-      {/* ── Right: dot grid canvas ── */}
-      <canvas
-        ref={canvasRef}
-        className="absolute right-0 top-0 hidden lg:block"
-        style={{
-          width: '50%',
-          height: '100vh',
-          opacity: 1,
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+      {/* Dot grid canvas */}
+      <canvas ref={canvasRef} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%', pointerEvents: 'none', zIndex: 0 }} />
     </section>
   );
 }

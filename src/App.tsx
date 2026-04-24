@@ -8,6 +8,7 @@ import { initLenis } from './lib/lenis';
 import Cursor from './components/ui/Cursor';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
+import Work from './components/sections/Work';
 
 export default function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <Work />
         {/* More sections will be added here in subsequent prompts */}
       </main>
     </div>

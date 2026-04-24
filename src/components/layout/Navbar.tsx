@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { Link, useLocation } from 'react-router-dom';
 
-const navLinks = ['Work', 'Services', 'Process', 'Contact'];
+const navLinks = ['Work', 'Process', 'About', 'Pricing'];
 
 export default function Navbar() {
   const navRef     = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
+  const location   = useLocation();
 
   // Scroll listener for background transition
   useEffect(() => {
@@ -30,6 +32,7 @@ export default function Navbar() {
     if (!overlay) return;
 
     if (menuOpen) {
+      document.body.style.overflow = 'hidden'; // prevent body scroll behind overlay
       gsap.set(overlay, { display: 'flex' });
       gsap.fromTo(overlay,
         { clipPath: 'inset(0 0 100% 0)' },
@@ -40,6 +43,7 @@ export default function Navbar() {
         { y: 0, opacity: 1, stagger: 0.08, duration: 0.5, ease: 'power3.out', delay: 0.3 }
       );
     } else {
+      document.body.style.overflow = '';
       gsap.to(overlay, {
         clipPath: 'inset(0 0 100% 0)',
         duration: 0.5,
@@ -64,38 +68,42 @@ export default function Navbar() {
           transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
         }}
       >
-        <a href="/" className="group flex items-center no-underline" aria-label="Axiom Infrastructure home">
-          <img
-            src="/logoclear-320.webp"
-            alt="Axiom"
-            className="block h-auto w-[118px] object-contain transition-opacity duration-300 md:w-[138px]"
-            style={{ opacity: scrolled ? 0.94 : 0.9 }}
-          />
-        </a>
+        <Link to="/" className="group flex items-center no-underline" aria-label="Axiom Infrastructure home">
+          <img src="/logoclear-320.webp" alt="Axiom" className="h-[14px] w-auto transition-opacity duration-300" style={{ opacity: scrolled ? 0.94 : 0.9 }} />
+        </Link>
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-10 md:flex">
-          {navLinks.map(link => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className="font-geist text-[var(--ax-muted)] transition-colors duration-200 hover:text-[var(--ax-text)]"
-              style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase' }}
-            >
-              {link}
-            </a>
-          ))}
+          {navLinks.map(link => {
+            const path = `/${link.toLowerCase()}`;
+            const isActive = location.pathname === path;
+            return (
+              <Link
+                key={link}
+                to={path}
+                className="font-geist transition-colors duration-200"
+                style={{ 
+                  fontSize: '12px', 
+                  letterSpacing: '0.08em', 
+                  textTransform: 'uppercase',
+                  color: isActive ? 'var(--ax-lime)' : 'var(--ax-muted)',
+                }}
+              >
+                {link}
+              </Link>
+            );
+          })}
         </div>
 
         {/* CTA + hamburger */}
         <div className="flex items-center gap-4">
-          <a
-            href="#contact"
+          <Link
+            to="/start-a-project"
             className="hidden bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold transition-colors duration-150 hover:bg-[#d4ff33] md:block"
             style={{ fontSize: '11px', letterSpacing: '0.1em', padding: '10px 18px', borderRadius: '0' }}
           >
             Start a Project
-          </a>
+          </Link>
 
           {/* Hamburger — mobile only */}
           <button
@@ -168,24 +176,24 @@ export default function Navbar() {
         style={{ display: 'none', clipPath: 'inset(0 0 100% 0)' }}
       >
         {navLinks.map(link => (
-          <a
+          <Link
             key={link}
-            href={`#${link.toLowerCase()}`}
+            to={`/${link.toLowerCase()}`}
             className="mobile-link block font-geist font-medium text-[var(--ax-text)] no-underline"
             style={{ fontSize: '48px', letterSpacing: '-0.02em', lineHeight: 1.1 }}
             onClick={() => setMenuOpen(false)}
           >
             {link}
-          </a>
+          </Link>
         ))}
-        <a
-          href="#contact"
+        <Link
+          to="/start-a-project"
           className="mobile-link mt-4 inline-block bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold no-underline rounded-none"
           style={{ fontSize: '13px', letterSpacing: '0.08em', padding: '14px 28px', borderRadius: '0' }}
           onClick={() => setMenuOpen(false)}
         >
           Start a Project
-        </a>
+        </Link>
       </div>
     </>
   );

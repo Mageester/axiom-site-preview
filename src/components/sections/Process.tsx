@@ -65,9 +65,11 @@ export default function Process() {
           ease: 'none',
           scrollTrigger: {
             trigger: pinRef.current,
-            start: 'top top',
+            start: 'top top+=72',
             end: () => `+=${distance() + window.innerHeight * 0.7}`,
             pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
             scrub: 0.9,
             invalidateOnRefresh: true,
           },
@@ -87,13 +89,13 @@ export default function Process() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="process" className="ax-section relative overflow-hidden" style={{ background: 'var(--ax-bg)' }}>
+    <section ref={sectionRef} id="process" className="ax-section relative" style={{ background: 'var(--ax-bg)' }}>
       <div className="ax-container relative z-10">
         <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>PROCESS</p>
         <h2 ref={headingRef} className="font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(46px,6vw,96px)', letterSpacing: '-0.045em', lineHeight: 0.9 }}>
           {headingLines.map((line) => (
             <span key={line.join(' ')} className="block">
-              {line.map((word) => <span key={word} className="word-mask mr-[0.2em]"><span className="reveal-word block">{word}</span></span>)}
+              {line.map((word) => <span key={word} className="word-mask" style={{ marginRight: '0.22em' }}><span className="reveal-word block">{word}</span></span>)}
             </span>
           ))}
         </h2>

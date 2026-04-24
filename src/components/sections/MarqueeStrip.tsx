@@ -10,12 +10,13 @@ export default function MarqueeStrip() {
   const stripRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const scanRef = useRef<HTMLDivElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     if (!stripRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.to(trackRef.current, {
+      tweenRef.current = gsap.to(trackRef.current, {
         xPercent: -50,
         duration: 24,
         ease: 'none',
@@ -47,6 +48,8 @@ export default function MarqueeStrip() {
       className="relative overflow-hidden border-y py-6"
       style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}
       aria-label="Axiom system capabilities"
+      onMouseEnter={() => tweenRef.current?.pause()}
+      onMouseLeave={() => tweenRef.current?.play()}
     >
       <div
         ref={scanRef}
@@ -57,12 +60,12 @@ export default function MarqueeStrip() {
         {[...items, ...items, ...items, ...items].map((item, index) => (
           <div key={`${item}-${index}`} className="flex items-center">
             <span
-              className="px-8 text-[13px] font-semibold uppercase tracking-[0.3em]"
-              style={{ color: index % 3 === 0 ? 'var(--ax-lime)' : 'rgba(235,235,235,0.5)', fontFamily: 'Geist, sans-serif' }}
+              className="text-[13px] font-semibold uppercase tracking-[0.3em]"
+              style={{ padding: '0 32px', color: 'rgba(235,235,235,0.5)', fontFamily: 'Geist, sans-serif' }}
             >
               {item}
             </span>
-            <span className="h-1.5 w-1.5" style={{ background: 'var(--ax-lime)', opacity: 0.72 }} />
+            <span className="h-1.5 w-1.5 shrink-0" style={{ background: 'var(--ax-lime)', opacity: 0.72 }} />
           </div>
         ))}
       </div>

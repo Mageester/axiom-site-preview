@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Footer() {
   const links = ['Work', 'Process', 'About', 'Pricing'];
 
@@ -17,23 +19,23 @@ export default function Footer() {
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'rgba(200,255,0,0.62)', fontFamily: 'Geist, sans-serif' }}>Pages</p>
           <div className="mt-4 flex flex-col gap-3">
             {links.map((link) => (
-              <a key={link} href={`#${link === 'About' ? 'about' : link.toLowerCase()}`} className="text-sm" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{link}</a>
+              <Link key={link} to={`/${link.toLowerCase()}`} className="text-sm transition-colors hover:text-[var(--ax-text)]" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{link}</Link>
             ))}
           </div>
         </div>
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'rgba(200,255,0,0.62)', fontFamily: 'Geist, sans-serif' }}>Contact</p>
           <div className="mt-4 flex flex-col gap-3">
-            <a href="mailto:contact@getaxiom.ca" className="text-sm" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>contact@getaxiom.ca</a>
-            <a href="tel:+12267531833" className="text-sm" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>(226) 753-1833</a>
-            <a href="#contact" className="text-sm" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Start a project</a>
+            <a href="mailto:contact@getaxiom.ca" className="text-sm transition-colors hover:text-[var(--ax-text)]" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>contact@getaxiom.ca</a>
+            <a href="tel:+12267531833" className="text-sm transition-colors hover:text-[var(--ax-text)]" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>(226) 753-1833</a>
+            <Link to="/start-a-project" className="text-sm transition-colors hover:text-[#d4ff33]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>Start a project</Link>
           </div>
         </div>
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'rgba(200,255,0,0.62)', fontFamily: 'Geist, sans-serif' }}>Legal</p>
           <div className="mt-4 flex flex-col gap-3">
-            <a href="#privacy" className="text-sm" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Privacy Policy</a>
-            <a href="#terms" className="text-sm" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Terms of Service</a>
+            <Link to="/privacy" className="text-sm transition-colors hover:text-[var(--ax-text)]" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Privacy Policy</Link>
+            <Link to="/terms" className="text-sm transition-colors hover:text-[var(--ax-text)]" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Terms of Service</Link>
           </div>
         </div>
       </div>

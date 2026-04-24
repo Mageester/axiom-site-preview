@@ -190,7 +190,7 @@ export default function Capabilities() {
     <section
       ref={sectionRef}
       id="services"
-      className="ax-section relative w-full overflow-hidden"
+      className="ax-section relative w-full"
       style={{
         background: 'var(--ax-bg)',
       }}

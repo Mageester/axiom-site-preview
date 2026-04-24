@@ -259,12 +259,12 @@ export default function Hero() {
           position: 'relative',
           zIndex: 10,
           width: '100%',
-          maxWidth: '760px',
+          maxWidth: '820px',
           paddingLeft: 'var(--page-pad-x)',
           paddingRight: 'var(--page-pad-x)',
           willChange: 'transform',
         }}
-        className="lg:w-1/2"
+        className="lg:w-3/5"
       >
         <div ref={eyebrowRef} style={{ marginBottom: '30px', opacity: 0 }}>
           <span style={{ fontFamily: 'Geist, sans-serif', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#555555' }}>
@@ -282,6 +282,7 @@ export default function Hero() {
             lineHeight: 1,
             color: '#ebebeb',
             willChange: 'transform',
+            textWrap: 'balance',
           }}
         >
           {headingLines.map((line, li) => (
@@ -330,20 +331,6 @@ export default function Hero() {
 
       <div ref={visualRef} style={{ position: 'absolute', right: 0, top: 0, width: '54%', minWidth: '520px', height: '100%', pointerEvents: 'none', zIndex: 0, willChange: 'transform, opacity' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, #060606 0%, rgba(6,6,6,0.64) 18%, rgba(6,6,6,0) 46%)', zIndex: 1 }} />
-        <img
-          src="/logoclear-320.webp"
-          alt=""
-          style={{
-            position: 'absolute',
-            right: '6%',
-            top: '50%',
-            width: 'min(48vw, 620px)',
-            transform: 'translateY(-50%)',
-            opacity: 0.075,
-            mixBlendMode: 'screen',
-            zIndex: 1,
-          }}
-        />
         <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
       </div>
 
@@ -363,9 +350,6 @@ export default function Hero() {
         <div style={{ position: 'absolute', left: '58%', top: '11%', width: '1px', height: '72%', background: 'rgba(235,235,235,0.06)' }} />
         <div style={{ position: 'absolute', left: '72%', top: '13%', width: '1px', height: '68%', background: 'rgba(200,255,0,0.12)' }} />
         <div style={{ position: 'absolute', left: '35%', top: '76%', width: '40%', height: '1px', background: 'rgba(235,235,235,0.08)' }} />
-        <span style={{ position: 'absolute', left: '32%', top: '14%', fontSize: '9px', letterSpacing: '0.22em', color: 'rgba(200,255,0,0.48)', textTransform: 'uppercase' }}>PROCESSING / 03</span>
-        <span style={{ position: 'absolute', right: '9%', top: '19%', fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(235,235,235,0.22)', textTransform: 'uppercase' }}>GRID 43.12 / 79.08</span>
-        <span style={{ position: 'absolute', left: '40%', bottom: '17%', fontSize: '9px', letterSpacing: '0.18em', color: 'rgba(235,235,235,0.2)', textTransform: 'uppercase' }}>QUEUE: WORK INDEX</span>
         {Array.from({ length: 8 }).map((_, idx) => (
           <span
             key={idx}

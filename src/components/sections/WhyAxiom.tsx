@@ -66,13 +66,13 @@ export default function WhyAxiom() {
           <h2 ref={headingRef} className="font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(46px,6vw,92px)', letterSpacing: '-0.045em', lineHeight: 0.9 }}>
             {headingLines.map((line) => (
               <span key={line.join(' ')} className="block">
-                {line.map((word) => <span key={word} className="word-mask mr-[0.2em]"><span className="reveal-word block">{word}</span></span>)}
+                {line.map((word) => <span key={word} className="word-mask" style={{ marginRight: '0.22em' }}><span className="reveal-word block">{word}</span></span>)}
               </span>
             ))}
           </h2>
           <p ref={statementRef} className="mt-12 max-w-5xl font-semibold tracking-[-0.04em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(32px, 5vw, 64px)', lineHeight: 1.12 }}>
             {statement.split(' ').map((word, index) => (
-              <span key={`${word}-${index}`} className="word-mask mr-[0.18em]">
+              <span key={`${word}-${index}`} className="word-mask" style={{ marginRight: '0.22em' }}>
                 <span className="why-word inline-block">{word}</span>
               </span>
             ))}

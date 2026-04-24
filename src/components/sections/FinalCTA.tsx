@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,9 +46,9 @@ export default function FinalCTA() {
             Tell us what the business needs. We’ll point you to the right path — monthly, ownership, or scoped build.
           </p>
           <div className="flex flex-col gap-5 md:items-start">
-            <a href="mailto:contact@getaxiom.ca" className="inline-flex w-fit items-center gap-5 px-7 py-4 text-[12px] font-semibold uppercase tracking-[0.16em]" style={{ background: 'var(--ax-lime)', color: 'var(--ax-bg)', fontFamily: 'Geist, sans-serif', borderRadius: 0 }}>
+            <Link to="/start-a-project" className="inline-flex w-fit items-center gap-5 px-7 py-4 text-[12px] font-semibold uppercase tracking-[0.16em]" style={{ background: 'var(--ax-lime)', color: 'var(--ax-bg)', fontFamily: 'Geist, sans-serif', borderRadius: 0 }}>
               Start a project <span>→</span>
-            </a>
+            </Link>
             <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
               Review → Scope → Build → Launch
             </p>

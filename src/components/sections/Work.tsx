@@ -104,14 +104,13 @@ export default function Work() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative w-full pb-36 pt-28 lg:pt-40"
+      className="ax-section-lg relative w-full"
       style={{
-        paddingLeft: 'clamp(32px, 7vw, 108px)',
-        paddingRight: 'clamp(32px, 4vw, 64px)',
         background: 'var(--ax-bg)',
       }}
     >
-      <div className="mb-16 md:mb-24 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+      <div className="ax-container">
+      <div className="mb-[var(--content-gap)] flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <h2
           ref={headingRef}
           className="font-geist font-bold"
@@ -139,7 +138,7 @@ export default function Work() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-24 md:gap-32">
+      <div className="flex flex-col gap-[var(--content-gap-lg)]">
         {projects.map((project, idx) => (
           <a
             key={project.title}
@@ -147,7 +146,7 @@ export default function Work() {
             data-cursor="view"
             className="work-card group block w-full no-underline"
           >
-            <div className="visual-container relative overflow-hidden border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)', minHeight: 'clamp(360px, 48vw, 640px)' }}>
+            <div className="visual-container relative overflow-hidden border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)', minHeight: 'clamp(320px, 42vw, 560px)' }}>
               <div className="inner-visual relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]">
                 <div
                   className="absolute inset-0"
@@ -226,6 +225,7 @@ export default function Work() {
             </div>
           </a>
         ))}
+      </div>
       </div>
     </section>
   );

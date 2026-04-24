@@ -53,9 +53,11 @@ export default function Navbar() {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-8 transition-all duration-400"
+        className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between transition-all duration-400"
         style={{
-          height: '64px',
+          height: '72px',
+          paddingLeft: 'var(--page-pad-x)',
+          paddingRight: 'var(--page-pad-x)',
           background: scrolled ? 'rgba(6,6,6,0.92)' : 'transparent',
           backdropFilter: scrolled ? 'blur(12px)' : 'none',
           borderBottom: scrolled ? '1px solid var(--ax-border)' : '1px solid transparent',
@@ -66,29 +68,19 @@ export default function Navbar() {
           <img
             src="/logoclear-320.webp"
             alt="Axiom"
-            className="block h-auto w-[104px] object-contain transition-opacity duration-300 md:w-[116px]"
-            style={{ opacity: scrolled ? 0.92 : 0.86 }}
+            className="block h-auto w-[118px] object-contain transition-opacity duration-300 md:w-[138px]"
+            style={{ opacity: scrolled ? 0.94 : 0.9 }}
           />
-          <span
-            className="ml-3 hidden h-5 w-px transition-colors duration-300 sm:block"
-            style={{ background: scrolled ? 'rgba(200,255,0,0.38)' : 'rgba(235,235,235,0.18)' }}
-          />
-          <span
-            className="ml-3 hidden text-[10px] font-semibold uppercase tracking-[0.22em] sm:block"
-            style={{ color: 'rgba(235,235,235,0.46)', fontFamily: 'Geist, sans-serif' }}
-          >
-            Infrastructure
-          </span>
         </a>
 
         {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-10 md:flex">
           {navLinks.map(link => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="font-geist text-[var(--ax-muted)] hover:text-[var(--ax-text)] transition-colors duration-200"
-              style={{ fontSize: '13px', letterSpacing: '0.02em' }}
+              className="font-geist text-[var(--ax-muted)] transition-colors duration-200 hover:text-[var(--ax-text)]"
+              style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase' }}
             >
               {link}
             </a>
@@ -99,36 +91,69 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <a
             href="#contact"
-            className="hidden md:block bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold hover:bg-[#d4ff33] transition-colors duration-150 rounded-none"
-            style={{ fontSize: '12px', letterSpacing: '0.08em', padding: '10px 20px', borderRadius: '0' }}
+            className="hidden bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold transition-colors duration-150 hover:bg-[#d4ff33] md:block"
+            style={{ fontSize: '11px', letterSpacing: '0.1em', padding: '10px 18px', borderRadius: '0' }}
           >
             Start a Project
           </a>
 
           {/* Hamburger — mobile only */}
           <button
-            className="md:hidden flex flex-col gap-[5px] p-2 bg-transparent border-none"
+            className="nav-menu-button"
             onClick={() => setMenuOpen(v => !v)}
             aria-label="Toggle menu"
+            style={{
+              position: 'absolute',
+              right: 'var(--page-pad-x)',
+              top: '15px',
+              zIndex: 60,
+              border: 0,
+              width: '42px',
+              height: '42px',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             <span
-              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
               style={{
+                position: 'absolute',
+                right: '36px',
+                top: '14px',
+                color: 'rgba(235,235,235,0.62)',
+                fontFamily: 'Geist, sans-serif',
+                fontSize: '9px',
+                letterSpacing: '0.18em',
+              }}
+            >
+              MENU
+            </span>
+            <span
+              className="transition-all duration-300"
+              style={{
+                display: 'block',
                 width: '22px',
+                height: '1px',
+                background: 'var(--ax-text)',
                 transform: menuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
               }}
             />
             <span
-              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
+              className="transition-all duration-300"
               style={{
+                display: 'block',
                 width: '22px',
+                height: '1px',
+                background: 'var(--ax-text)',
                 opacity: menuOpen ? 0 : 1,
               }}
             />
             <span
-              className="block h-px bg-[var(--ax-text)] transition-all duration-300"
+              className="transition-all duration-300"
               style={{
+                display: 'block',
                 width: '22px',
+                height: '1px',
+                background: 'var(--ax-text)',
                 transform: menuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none',
               }}
             />

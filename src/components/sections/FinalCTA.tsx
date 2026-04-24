@@ -31,7 +31,7 @@ export default function FinalCTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="contact" className="relative flex min-h-[92vh] items-center overflow-hidden px-[clamp(32px,7vw,108px)] py-32" style={{ background: 'var(--ax-bg)' }}>
+    <section ref={sectionRef} id="contact" className="relative flex min-h-[92vh] items-center overflow-hidden py-32" style={{ paddingLeft: 'var(--page-pad-x)', paddingRight: 'var(--page-pad-x)', background: 'var(--ax-bg)' }}>
       <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute left-1/2 top-1/2 w-[92vw] max-w-[980px] -translate-x-1/2 -translate-y-1/2" style={{ opacity: 0.07, mixBlendMode: 'screen' }} />
       <div className="absolute inset-0 opacity-[0.16]" style={{ backgroundImage: 'linear-gradient(rgba(235,235,235,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(235,235,235,0.04) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
       <div ref={scanRef} className="pointer-events-none absolute left-0 top-1/2 h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--ax-lime), transparent)', boxShadow: '0 0 36px rgba(200,255,0,0.38)' }} />

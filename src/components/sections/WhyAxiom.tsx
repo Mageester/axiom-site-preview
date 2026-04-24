@@ -58,8 +58,8 @@ export default function WhyAxiom() {
   const statement = 'A site is weak when the offer is unclear, proof is buried, load time drags, or the handoff dies after launch. We build against that.';
 
   return (
-    <section ref={sectionRef} id="about" className="relative overflow-hidden px-[clamp(32px,7vw,108px)] py-36 md:py-44" style={{ background: 'var(--ax-bg)' }}>
-      <div className="relative border px-6 py-12 md:px-12 md:py-16" style={{ background: 'var(--ax-surface)', borderColor: 'var(--ax-border)' }}>
+    <section ref={sectionRef} id="about" className="ax-section relative overflow-hidden" style={{ background: 'var(--ax-bg)' }}>
+      <div className="ax-container relative border px-6 py-12 md:px-12 md:py-16" style={{ background: 'var(--ax-surface)', borderColor: 'var(--ax-border)' }}>
         <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute right-[-4%] top-[-8%] w-[58vw] max-w-[680px]" style={{ opacity: 0.055, mixBlendMode: 'screen' }} />
         <div className="relative z-10">
           <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>WHY AXIOM</p>
@@ -70,7 +70,7 @@ export default function WhyAxiom() {
               </span>
             ))}
           </h2>
-          <p ref={statementRef} className="mt-10 max-w-5xl font-semibold tracking-[-0.04em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(32px, 5vw, 64px)', lineHeight: 1.12 }}>
+          <p ref={statementRef} className="mt-12 max-w-5xl font-semibold tracking-[-0.04em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(32px, 5vw, 64px)', lineHeight: 1.12 }}>
             {statement.split(' ').map((word, index) => (
               <span key={`${word}-${index}`} className="word-mask mr-[0.18em]">
                 <span className="why-word inline-block">{word}</span>
@@ -78,7 +78,7 @@ export default function WhyAxiom() {
             ))}
           </p>
 
-          <div className="mt-[72px] grid gap-px md:grid-cols-2" style={{ background: 'var(--ax-border)' }}>
+          <div className="mt-[var(--content-gap)] grid gap-px md:grid-cols-2" style={{ background: 'var(--ax-border)' }}>
             {points.map(([title, body], index) => (
               <article key={title} className="why-cell relative min-h-[240px] overflow-hidden p-7 md:p-9" style={{ background: 'var(--ax-surface)' }}>
                 <div className="why-edge absolute bottom-0 left-0 top-0 w-[2px]" style={{ background: 'var(--ax-lime)' }} />

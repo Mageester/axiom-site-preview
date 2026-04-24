@@ -43,8 +43,9 @@ export default function Pricing() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="pricing" className="relative overflow-hidden px-[clamp(32px,7vw,108px)] py-36 md:py-44" style={{ background: 'var(--ax-bg)' }}>
+    <section ref={sectionRef} id="pricing" className="ax-section relative overflow-hidden" style={{ background: 'var(--ax-bg)' }}>
       <div ref={scanRef} className="pointer-events-none absolute left-0 top-[47%] h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--ax-lime), transparent)', boxShadow: '0 0 28px rgba(200,255,0,0.28)' }} />
+      <div className="ax-container">
       <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>PRICING</p>
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
         <h2 ref={headingRef} className="font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(42px,5.5vw,86px)', letterSpacing: '-0.045em', lineHeight: 0.9 }}>
@@ -59,7 +60,7 @@ export default function Pricing() {
         </p>
       </div>
 
-      <div className="mt-20 grid gap-6 lg:grid-cols-3">
+      <div className="mt-[var(--content-gap)] grid gap-8 lg:grid-cols-3">
         {plans.map((plan, index) => (
           <article
             key={plan.name}
@@ -103,6 +104,7 @@ export default function Pricing() {
             </a>
           </article>
         ))}
+      </div>
       </div>
     </section>
   );

@@ -190,10 +190,8 @@ export default function Capabilities() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full overflow-hidden py-36 md:py-44"
+      className="ax-section relative w-full overflow-hidden"
       style={{
-        paddingLeft: 'clamp(32px, 7vw, 108px)',
-        paddingRight: 'clamp(32px, 4vw, 64px)',
         background: 'var(--ax-bg)',
       }}
     >
@@ -207,7 +205,8 @@ export default function Capabilities() {
         }}
       />
 
-      <div className="relative z-10 mb-16 max-w-5xl md:mb-24">
+      <div className="ax-container relative z-10">
+      <div className="mb-[var(--content-gap)] max-w-5xl">
         <p
           className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]"
           style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}
@@ -243,7 +242,7 @@ export default function Capabilities() {
         </p>
       </div>
 
-      <div className="relative z-10 grid gap-12 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
+      <div className="relative z-10 grid gap-[var(--content-gap)] lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
         <aside className="lg:sticky lg:top-28">
           <div
             ref={panelRef}
@@ -290,7 +289,7 @@ export default function Capabilities() {
                     ref={(node) => {
                       statValueRefs.current[index] = node;
                     }}
-                    className="block text-4xl font-bold tracking-[-0.06em] md:text-6xl"
+                    className="block text-[clamp(36px,4.5vw,58px)] font-bold tracking-[-0.06em]"
                     style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}
                   >
                     {formatStat(0, stat)}
@@ -395,6 +394,7 @@ export default function Capabilities() {
             );
           })}
         </div>
+      </div>
       </div>
     </section>
   );

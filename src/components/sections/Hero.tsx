@@ -246,10 +246,10 @@ export default function Hero() {
       style={{
         position: 'relative',
         display: 'flex',
-        minHeight: '100vh',
+        minHeight: '100svh',
         alignItems: 'center',
         overflow: 'hidden',
-        paddingTop: '64px',
+        paddingTop: '72px',
         background: '#060606',
       }}
     >
@@ -260,8 +260,8 @@ export default function Hero() {
           zIndex: 10,
           width: '100%',
           maxWidth: '760px',
-          paddingLeft: 'clamp(32px, 7vw, 108px)',
-          paddingRight: 'clamp(32px, 4vw, 64px)',
+          paddingLeft: 'var(--page-pad-x)',
+          paddingRight: 'var(--page-pad-x)',
           willChange: 'transform',
         }}
         className="lg:w-1/2"
@@ -277,7 +277,7 @@ export default function Hero() {
           style={{
             fontFamily: 'Geist, sans-serif',
             fontWeight: 700,
-            fontSize: 'clamp(44px, 5.6vw, 82px)',
+            fontSize: 'clamp(44px, 5.4vw, 78px)',
             letterSpacing: '-0.04em',
             lineHeight: 1,
             color: '#ebebeb',

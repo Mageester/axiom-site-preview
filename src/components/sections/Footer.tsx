@@ -2,20 +2,14 @@ export default function Footer() {
   const links = ['Work', 'Process', 'About', 'Pricing'];
 
   return (
-    <footer className="relative overflow-hidden border-t px-[clamp(32px,7vw,108px)] py-14 md:py-20" style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}>
-      <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-22%] right-[-8%] w-[86vw] max-w-[980px]" style={{ opacity: 0.045, mixBlendMode: 'screen' }} />
+    <footer className="ax-section-sm relative overflow-hidden border-t" style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}>
+      <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-18%] right-[-8%] w-[78vw] max-w-[900px]" style={{ opacity: 0.04, mixBlendMode: 'screen' }} />
       <div className="pointer-events-none absolute left-0 top-0 h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,255,0,0.42), transparent)' }} />
-      <div className="relative z-10 grid gap-12 md:grid-cols-[1.35fr_0.65fr_0.75fr_0.65fr]">
+      <div className="ax-container relative z-10 grid gap-12 md:grid-cols-[1.35fr_0.65fr_0.75fr_0.65fr]">
         <div>
           <div className="max-w-[330px]">
-            <img
-              src="/logoclear-320.webp"
-              alt="Axiom"
-              className="block h-auto w-[188px] object-contain md:w-[230px]"
-              style={{ opacity: 0.9 }}
-            />
+            <h2 className="text-xl font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Axiom Infrastructure</h2>
             <div className="mt-6 h-px w-20" style={{ background: 'rgba(200,255,0,0.5)' }} />
-            <h2 className="mt-6 text-xl font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Axiom Infrastructure</h2>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-6" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Websites built to convert. Not to decorate.</p>
         </div>
@@ -43,7 +37,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="relative z-10 mt-16 flex flex-col gap-4 border-t pt-6 md:flex-row md:items-center md:justify-between" style={{ borderColor: 'var(--ax-border)' }}>
+      <div className="ax-container relative z-10 mt-16 flex flex-col gap-4 border-t pt-6 md:flex-row md:items-center md:justify-between" style={{ borderColor: 'var(--ax-border)' }}>
         <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>© 2026 Axiom Infrastructure.</p>
         <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: 'rgba(235,235,235,0.28)', fontFamily: 'Geist, sans-serif' }}>System shutdown / stable</p>
       </div>

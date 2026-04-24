@@ -104,7 +104,7 @@ export default function Work() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative w-full pb-32 pt-28 lg:pt-36"
+      className="relative w-full pb-36 pt-28 lg:pt-40"
       style={{
         paddingLeft: 'clamp(32px, 7vw, 108px)',
         paddingRight: 'clamp(32px, 4vw, 64px)',
@@ -139,7 +139,7 @@ export default function Work() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-20 md:gap-28">
+      <div className="flex flex-col gap-24 md:gap-32">
         {projects.map((project, idx) => (
           <a
             key={project.title}
@@ -147,7 +147,7 @@ export default function Work() {
             data-cursor="view"
             className="work-card group block w-full no-underline"
           >
-            <div className="visual-container relative overflow-hidden aspect-[16/9] md:aspect-[21/9] border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)' }}>
+            <div className="visual-container relative overflow-hidden border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)', minHeight: 'clamp(360px, 48vw, 640px)' }}>
               <div className="inner-visual relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]">
                 <div
                   className="absolute inset-0"
@@ -177,29 +177,29 @@ export default function Work() {
                   {project.code}
                 </span>
 
-                <div className="absolute inset-x-6 bottom-6 grid grid-cols-12 gap-3 md:inset-x-8 md:bottom-8">
-                  <div className="interface-fragment col-span-12 border border-[rgba(235,235,235,0.1)] bg-[rgba(6,6,6,0.56)] p-4 md:col-span-7">
-                    <div className="mb-4 flex items-center justify-between">
-                      <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(200,255,0,0.58)]">{project.niche}</span>
-                      <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(235,235,235,0.28)]">Conversion path</span>
-                    </div>
-                    <div className="space-y-2">
+                <div className="absolute inset-x-6 bottom-6 grid gap-4 md:inset-x-8 md:bottom-8 md:grid-cols-[1fr_0.7fr]">
+                  <div className="interface-fragment border border-[rgba(235,235,235,0.1)] bg-[rgba(6,6,6,0.64)] p-5 md:p-6">
+                    <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(200,255,0,0.58)]">{project.niche}</span>
+                    <h3 className="mt-4 font-geist text-3xl font-semibold tracking-[-0.04em] text-[var(--ax-text)] md:text-5xl">
+                      {project.title}
+                    </h3>
+                    <p className="mt-4 max-w-2xl font-geist text-sm leading-6 text-[rgba(235,235,235,0.58)] md:text-base md:leading-7">
+                      {project.result}
+                    </p>
+                  </div>
+                  <div className="interface-fragment hidden border border-[rgba(200,255,0,0.18)] bg-[rgba(200,255,0,0.035)] p-6 md:block">
+                    <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(235,235,235,0.3)]">Axiom changed</span>
+                    <p className="mt-5 font-geist text-sm leading-6 text-[rgba(235,235,235,0.62)]">{project.changed}</p>
+                    <div className="mt-6 space-y-2">
                       <div className="proof-line h-px w-full bg-[rgba(235,235,235,0.18)]" />
                       <div className="proof-line h-px w-4/5 bg-[rgba(200,255,0,0.38)]" />
                       <div className="proof-line h-px w-3/5 bg-[rgba(235,235,235,0.13)]" />
                     </div>
                   </div>
-                  <div className="interface-fragment col-span-12 border border-[rgba(200,255,0,0.18)] bg-[rgba(200,255,0,0.035)] p-4 md:col-span-5">
-                    <span className="font-geist text-[9px] uppercase tracking-[0.22em] text-[rgba(235,235,235,0.3)]">Axiom changed</span>
-                    <p className="mt-3 max-h-[60px] overflow-hidden font-geist text-xs leading-5 text-[rgba(235,235,235,0.62)]">{project.changed}</p>
-                  </div>
-                  <div className="interface-fragment col-span-3 h-2 bg-[rgba(235,235,235,0.16)]" />
-                  <div className="interface-fragment col-span-2 h-2 bg-[rgba(200,255,0,0.34)]" />
-                  <div className="interface-fragment col-span-4 h-2 bg-[rgba(235,235,235,0.1)]" />
                 </div>
 
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-geist text-4xl font-bold uppercase tracking-[0.18em] text-[rgba(235,235,235,0.12)] md:text-6xl">
+                  <span className="font-geist text-4xl font-bold uppercase tracking-[0.18em] text-[rgba(235,235,235,0.07)] md:text-7xl">
                     {project.niche}
                   </span>
                 </div>
@@ -208,7 +208,7 @@ export default function Work() {
               </div>
             </div>
 
-            <div className="metadata mt-5 flex flex-col gap-4 md:mt-7 md:flex-row md:items-center md:justify-between">
+            <div className="metadata mt-6 flex flex-col gap-4 md:mt-8 md:flex-row md:items-center md:justify-between">
               <div>
                 <h3 className="font-geist text-2xl font-semibold tracking-tight text-[var(--ax-text)] md:text-3xl">
                   {project.title}

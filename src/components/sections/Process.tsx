@@ -87,7 +87,7 @@ export default function Process() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="process" className="relative overflow-hidden py-32 md:py-40" style={{ background: 'var(--ax-bg)' }}>
+    <section ref={sectionRef} id="process" className="relative overflow-hidden py-36 md:py-44" style={{ background: 'var(--ax-bg)' }}>
       <div className="relative z-10 px-[clamp(32px,7vw,108px)]">
         <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>PROCESS</p>
         <h2 ref={headingRef} className="font-bold uppercase" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(46px,6vw,96px)', letterSpacing: '-0.045em', lineHeight: 0.9 }}>
@@ -102,15 +102,15 @@ export default function Process() {
         </p>
       </div>
 
-      <div ref={pinRef} className="relative mt-20 overflow-hidden px-[clamp(32px,7vw,108px)] md:h-[72vh] md:pt-14">
+      <div ref={pinRef} className="relative mt-20 overflow-hidden px-[clamp(32px,7vw,108px)] md:h-[76vh] md:min-h-[680px] md:pt-16">
         <svg className="pointer-events-none absolute left-[clamp(32px,7vw,108px)] right-0 top-[170px] hidden h-20 md:block" viewBox="0 0 1400 80" fill="none" preserveAspectRatio="none">
           <path ref={pathRef} d="M0 40 H1340" stroke="rgba(200,255,0,0.78)" strokeWidth="2" />
         </svg>
 
         <div ref={mobileLineRef} className="absolute bottom-20 left-[42px] top-10 w-px origin-top md:hidden" style={{ background: 'var(--ax-lime)' }} />
-        <div ref={trackRef} className="grid gap-5 md:flex md:w-max md:gap-10">
+        <div ref={trackRef} className="grid gap-6 md:flex md:w-max md:gap-12">
           {steps.map((step, index) => (
-            <article key={step.title} className="process-station relative overflow-hidden border p-6 md:w-[420px] md:p-8" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
+            <article key={step.title} className="process-station relative overflow-hidden border p-7 md:w-[440px] md:p-9" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
               <div
                 className="pointer-events-none absolute inset-0"
                 style={{
@@ -127,7 +127,7 @@ export default function Process() {
               </div>
               <span className="relative text-[10px] uppercase tracking-[0.24em]" style={{ color: 'rgba(235,235,235,0.28)', fontFamily: 'Geist, sans-serif' }}>{step.signal}</span>
               <h3 className="relative mt-5 text-4xl font-semibold tracking-[-0.04em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>{step.title}</h3>
-              <p className="relative mt-6 min-h-[96px] text-base leading-7" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{step.body}</p>
+              <p className="relative mt-6 min-h-[112px] text-base leading-7" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{step.body}</p>
               <div className="relative mt-8 h-px w-full" style={{ background: 'linear-gradient(90deg, var(--ax-lime), transparent)' }} />
             </article>
           ))}

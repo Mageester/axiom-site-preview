@@ -62,19 +62,22 @@ export default function Navbar() {
           transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
         }}
       >
-        <a href="/" className="flex items-center gap-3 no-underline" aria-label="Axiom Infrastructure home">
+        <a href="/" className="group flex items-center no-underline" aria-label="Axiom Infrastructure home">
+          <img
+            src="/logoclear-320.webp"
+            alt="Axiom"
+            className="block h-auto w-[104px] object-contain transition-opacity duration-300 md:w-[116px]"
+            style={{ opacity: scrolled ? 0.92 : 0.86 }}
+          />
           <span
-            className="relative flex h-7 w-7 items-center justify-center overflow-hidden border"
-            style={{ borderColor: 'rgba(200,255,0,0.26)', background: 'rgba(200,255,0,0.025)' }}
-          >
-            <img src="/logoclear-320.webp" alt="" className="h-5 w-5 object-contain" style={{ opacity: 0.86 }} />
-            <span className="absolute inset-x-0 top-0 h-px" style={{ background: 'var(--ax-lime)' }} />
-          </span>
+            className="ml-3 hidden h-5 w-px transition-colors duration-300 sm:block"
+            style={{ background: scrolled ? 'rgba(200,255,0,0.38)' : 'rgba(235,235,235,0.18)' }}
+          />
           <span
-            className="text-[var(--ax-text)] font-geist font-semibold tracking-widest"
-            style={{ fontSize: '14px', letterSpacing: '0.12em', fontFamily: 'Geist, sans-serif' }}
+            className="ml-3 hidden text-[10px] font-semibold uppercase tracking-[0.22em] sm:block"
+            style={{ color: 'rgba(235,235,235,0.46)', fontFamily: 'Geist, sans-serif' }}
           >
-            AXIOM
+            Infrastructure
           </span>
         </a>
 

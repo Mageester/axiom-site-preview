@@ -43,7 +43,7 @@ export default function Pricing() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="pricing" className="relative overflow-hidden px-[clamp(32px,7vw,108px)] py-32 md:py-40" style={{ background: 'var(--ax-bg)' }}>
+    <section ref={sectionRef} id="pricing" className="relative overflow-hidden px-[clamp(32px,7vw,108px)] py-36 md:py-44" style={{ background: 'var(--ax-bg)' }}>
       <div ref={scanRef} className="pointer-events-none absolute left-0 top-[47%] h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--ax-lime), transparent)', boxShadow: '0 0 28px rgba(200,255,0,0.28)' }} />
       <p className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>PRICING</p>
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
@@ -59,11 +59,11 @@ export default function Pricing() {
         </p>
       </div>
 
-      <div className="mt-16 grid gap-4 lg:grid-cols-3">
+      <div className="mt-20 grid gap-6 lg:grid-cols-3">
         {plans.map((plan, index) => (
           <article
             key={plan.name}
-            className="pricing-plan group relative overflow-hidden border p-6 transition-colors duration-300 hover:border-[var(--ax-lime)] md:p-8"
+            className="pricing-plan group relative overflow-hidden border p-7 transition-colors duration-300 hover:border-[var(--ax-lime)] md:p-9"
             style={{
               background: 'linear-gradient(180deg, rgba(15,15,15,0.98), rgba(6,6,6,0.96))',
               borderColor: index === 0 ? 'rgba(200,255,0,0.48)' : 'var(--ax-border)',
@@ -83,12 +83,12 @@ export default function Pricing() {
             <span className="relative mb-4 block text-[10px] uppercase tracking-[0.22em]" style={{ color: 'rgba(235,235,235,0.22)', fontFamily: 'Geist, sans-serif' }}>
                 MODE / {String(index + 1).padStart(2, '0')}
             </span>
-            <div className="relative flex min-h-[72px] items-start justify-between gap-4">
+            <div className="relative flex min-h-[86px] items-start justify-between gap-5">
               <h3 className="text-2xl font-semibold tracking-[-0.04em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>{plan.name}</h3>
               {plan.tag && <span className="border px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.2em]" style={{ borderColor: 'rgba(200,255,0,0.36)', color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>{plan.tag}</span>}
             </div>
             <p className="relative mt-8 text-4xl font-bold tracking-[-0.055em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>{plan.price}</p>
-            <p className="relative mt-5 min-h-[84px] text-base leading-7" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{plan.description}</p>
+            <p className="relative mt-5 min-h-[104px] text-base leading-7" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>{plan.description}</p>
             <div className="relative my-8 h-px w-full transition-transform duration-500 group-hover:translate-x-3" style={{ background: 'linear-gradient(90deg, var(--ax-lime), rgba(235,235,235,0.1), transparent)' }} />
             <ul className="relative space-y-4">
               {plan.features.map((feature) => (

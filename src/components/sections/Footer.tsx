@@ -3,16 +3,21 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t px-[clamp(32px,7vw,108px)] py-14 md:py-20" style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}>
-      <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-34%] right-[-4%] w-[72vw] max-w-[840px]" style={{ opacity: 0.055, mixBlendMode: 'screen' }} />
-      <div className="relative z-10 grid gap-10 md:grid-cols-4">
+      <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-22%] right-[-8%] w-[86vw] max-w-[980px]" style={{ opacity: 0.045, mixBlendMode: 'screen' }} />
+      <div className="pointer-events-none absolute left-0 top-0 h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,255,0,0.42), transparent)' }} />
+      <div className="relative z-10 grid gap-12 md:grid-cols-[1.35fr_0.65fr_0.75fr_0.65fr]">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center border" style={{ borderColor: 'rgba(200,255,0,0.28)', background: 'rgba(200,255,0,0.025)' }}>
-              <img src="/logoclear-320.webp" alt="" className="h-7 w-7 object-contain" style={{ opacity: 0.86 }} />
-            </span>
-            <h2 className="text-lg font-semibold uppercase tracking-[0.14em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Axiom Infrastructure</h2>
+          <div className="max-w-[330px]">
+            <img
+              src="/logoclear-320.webp"
+              alt="Axiom"
+              className="block h-auto w-[188px] object-contain md:w-[230px]"
+              style={{ opacity: 0.9 }}
+            />
+            <div className="mt-6 h-px w-20" style={{ background: 'rgba(200,255,0,0.5)' }} />
+            <h2 className="mt-6 text-xl font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>Axiom Infrastructure</h2>
           </div>
-          <p className="mt-4 max-w-xs text-sm leading-6" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>Websites built to convert. Not to decorate.</p>
+          <p className="mt-4 max-w-xs text-sm leading-6" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>Websites built to convert. Not to decorate.</p>
         </div>
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: 'rgba(200,255,0,0.62)', fontFamily: 'Geist, sans-serif' }}>Pages</p>

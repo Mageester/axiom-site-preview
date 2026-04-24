@@ -190,7 +190,7 @@ export default function Capabilities() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full overflow-hidden py-32 md:py-40"
+      className="relative w-full overflow-hidden py-36 md:py-44"
       style={{
         paddingLeft: 'clamp(32px, 7vw, 108px)',
         paddingRight: 'clamp(32px, 4vw, 64px)',
@@ -243,7 +243,7 @@ export default function Capabilities() {
         </p>
       </div>
 
-      <div className="relative z-10 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+      <div className="relative z-10 grid gap-12 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
         <aside className="lg:sticky lg:top-28">
           <div
             ref={panelRef}
@@ -283,14 +283,14 @@ export default function Capabilities() {
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className="min-h-[142px] border-b py-6 pr-4 even:border-l even:pl-5"
+                  className="min-h-[124px] border-b py-6 pr-4 even:border-l even:pl-5 md:min-h-[148px]"
                   style={{ borderColor: 'var(--ax-border)' }}
                 >
                   <span
                     ref={(node) => {
                       statValueRefs.current[index] = node;
                     }}
-                    className="block text-5xl font-bold tracking-[-0.06em] md:text-6xl"
+                    className="block text-4xl font-bold tracking-[-0.06em] md:text-6xl"
                     style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}
                   >
                     {formatStat(0, stat)}
@@ -325,7 +325,7 @@ export default function Capabilities() {
               >
                 <button
                   type="button"
-                  className="grid w-full grid-cols-[48px_1fr] gap-4 py-7 text-left md:grid-cols-[72px_1fr_150px] md:gap-6 md:py-9"
+                  className="grid w-full grid-cols-[42px_1fr] gap-4 py-8 text-left md:grid-cols-[72px_1fr_150px] md:gap-7 md:py-10"
                   onClick={() => setActiveIndex(index)}
                   aria-expanded={active}
                   aria-controls={`capability-panel-${index}`}
@@ -341,7 +341,7 @@ export default function Capabilities() {
                   </span>
                   <span>
                     <span
-                      className="block text-2xl font-semibold tracking-[-0.04em] transition-colors md:text-4xl"
+                      className="block text-[clamp(26px,3vw,42px)] font-semibold tracking-[-0.04em] transition-colors"
                       style={{
                         color: active ? 'var(--ax-text)' : 'rgba(235,235,235,0.68)',
                         fontFamily: 'Geist, sans-serif',
@@ -378,7 +378,7 @@ export default function Capabilities() {
                   id={`capability-panel-${index}`}
                   className="h-0 overflow-hidden"
                 >
-                  <div className="grid grid-cols-[48px_1fr] gap-4 pb-8 md:grid-cols-[72px_1fr_150px] md:gap-6 md:pb-10">
+                  <div className="grid grid-cols-[42px_1fr] gap-4 pb-10 md:grid-cols-[72px_1fr_150px] md:gap-7 md:pb-12">
                     <div />
                     <p
                       className="max-w-2xl text-base leading-7 md:text-lg"

@@ -259,13 +259,14 @@ export default function Hero() {
           position: 'relative',
           zIndex: 10,
           width: '100%',
+          maxWidth: '760px',
           paddingLeft: 'clamp(32px, 7vw, 108px)',
           paddingRight: 'clamp(32px, 4vw, 64px)',
           willChange: 'transform',
         }}
         className="lg:w-1/2"
       >
-        <div ref={eyebrowRef} style={{ marginBottom: '40px', opacity: 0 }}>
+        <div ref={eyebrowRef} style={{ marginBottom: '30px', opacity: 0 }}>
           <span style={{ fontFamily: 'Geist, sans-serif', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#555555' }}>
             Web & AI Agency / KW Ontario
           </span>
@@ -276,9 +277,9 @@ export default function Hero() {
           style={{
             fontFamily: 'Geist, sans-serif',
             fontWeight: 700,
-            fontSize: 'clamp(52px, 6.8vw, 96px)',
+            fontSize: 'clamp(44px, 5.6vw, 82px)',
             letterSpacing: '-0.04em',
-            lineHeight: 0.93,
+            lineHeight: 1,
             color: '#ebebeb',
             willChange: 'transform',
           }}
@@ -300,12 +301,12 @@ export default function Hero() {
           ))}
         </h1>
 
-        <p ref={subRef} style={{ marginTop: '36px', fontFamily: 'Geist, sans-serif', fontSize: '14px', letterSpacing: '0.02em', lineHeight: 1.7, color: '#555555', opacity: 0 }}>
+        <p ref={subRef} style={{ marginTop: '30px', fontFamily: 'Geist, sans-serif', fontSize: '14px', letterSpacing: '0.02em', lineHeight: 1.7, color: '#555555', opacity: 0 }}>
           High-performance web and AI systems.<br />
           Kitchener-Waterloo, Ontario.
         </p>
 
-        <div ref={ctaRef} style={{ marginTop: '44px', display: 'flex', alignItems: 'center', gap: '28px', opacity: 0, willChange: 'transform' }}>
+        <div ref={ctaRef} style={{ marginTop: '32px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '18px 28px', opacity: 0, willChange: 'transform' }}>
           <a href="#contact" style={{ display: 'inline-block', background: '#c8ff00', color: '#060606', fontFamily: 'Geist, sans-serif', fontWeight: 600, fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '14px 28px', borderRadius: 0, textDecoration: 'none', transition: 'background 0.15s ease' }}
             onMouseEnter={e => (e.currentTarget.style.background = '#d4ff33')}
             onMouseLeave={e => (e.currentTarget.style.background = '#c8ff00')}>
@@ -320,14 +321,14 @@ export default function Hero() {
 
       </div>
 
-      <div ref={scrollRef} style={{ position: 'absolute', bottom: '40px', left: 'clamp(32px, 7vw, 108px)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', opacity: 0, zIndex: 11, willChange: 'transform, opacity' }}>
+      <div ref={scrollRef} style={{ position: 'absolute', right: 'clamp(32px, 5vw, 72px)', bottom: '34px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', opacity: 0, zIndex: 11, willChange: 'transform, opacity' }}>
         <span style={{ fontFamily: 'Geist, sans-serif', fontSize: '9px', letterSpacing: '0.25em', color: '#2a2a2a', writingMode: 'vertical-lr', textTransform: 'uppercase' }}>Scroll</span>
         <div style={{ position: 'relative', width: '1px', height: '48px', background: '#1c1c1c', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '40%', background: '#c8ff00', animation: 'scrollLine 2s ease-in-out infinite' }} />
         </div>
       </div>
 
-      <div ref={visualRef} style={{ position: 'absolute', right: 0, top: 0, width: '54%', height: '100%', pointerEvents: 'none', zIndex: 0, willChange: 'transform, opacity' }}>
+      <div ref={visualRef} style={{ position: 'absolute', right: 0, top: 0, width: '54%', minWidth: '520px', height: '100%', pointerEvents: 'none', zIndex: 0, willChange: 'transform, opacity' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, #060606 0%, rgba(6,6,6,0.64) 18%, rgba(6,6,6,0) 46%)', zIndex: 1 }} />
         <img
           src="/logoclear-320.webp"

@@ -1,4 +1,6 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { motionDuration, motionEase, motionStagger, prefersReducedMotion } from '../../lib/motion';
 import {
   aboutPrinciples,
   legalPages,
@@ -26,16 +28,63 @@ function PageHero({
   title: string;
   copy: string;
 }) {
+  const heroRef = useRef<HTMLElement>(null);
+  const words = title.split(' ');
+
+  useEffect(() => {
+    if (!heroRef.current || prefersReducedMotion()) return;
+
+    const ctx = gsap.context(() => {
+      const wordNodes = heroRef.current?.querySelectorAll('.page-title-word');
+      const support = heroRef.current?.querySelectorAll('.page-hero-support');
+
+      gsap.set(wordNodes, { y: '110%', rotateX: -10, transformOrigin: '50% 100%' });
+      gsap.set(support, { opacity: 0, y: 18 });
+
+      gsap.timeline({ delay: 0.08 })
+        .to(wordNodes, {
+          y: '0%',
+          rotateX: 0,
+          duration: motionDuration.scene,
+          ease: motionEase.reveal,
+          stagger: motionStagger.word,
+        })
+        .to(support, {
+          opacity: 1,
+          y: 0,
+          duration: motionDuration.reveal,
+          ease: motionEase.settle,
+          stagger: 0.08,
+        }, 0.22);
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, [title]);
+
   return (
-    <header className="ax-section-lg" style={{ paddingTop: 'calc(var(--section-y-lg) + 72px)' }}>
-      <div className="ax-container ax-stack-sm">
-        <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
-          {eyebrow}
-        </p>
-        <h1 className="ax-page-title" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
-          {title}
-        </h1>
-        <p className="ax-section-copy" style={{ color: 'rgba(235,235,235,0.62)', fontFamily: 'Geist, sans-serif' }}>
+    <header
+      ref={heroRef}
+      className="border-b"
+      style={{
+        paddingTop: 'calc(var(--section-y-sm) + 96px)',
+        paddingBottom: 'var(--section-y-sm)',
+        borderColor: 'var(--ax-border)',
+      }}
+    >
+      <div className="ax-container grid gap-7 md:grid-cols-[1fr_0.58fr] md:items-end">
+        <div>
+          <p className="page-hero-support ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
+            {eyebrow}
+          </p>
+          <h1 className="mt-7 ax-page-title font-bold" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
+            {words.map((word, index) => (
+              <span key={`${word}-${index}`} className="word-mask inline-block" style={{ marginRight: index === words.length - 1 ? 0 : '0.18em' }}>
+                <span className="page-title-word inline-block">{word}</span>
+              </span>
+            ))}
+          </h1>
+        </div>
+        <p className="page-hero-support ax-section-copy md:pb-2" style={{ color: 'rgba(235,235,235,0.62)', fontFamily: 'Geist, sans-serif' }}>
           {copy}
         </p>
       </div>
@@ -46,7 +95,7 @@ function PageHero({
 function RouteCTA() {
   return (
     <section className="ax-section-sm">
-      <div className="ax-container border px-6 py-10 md:px-10 md:py-12" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
+      <div className="ax-container border px-6 py-10 md:px-10 md:py-12" style={{ borderColor: 'rgba(200,255,0,0.22)', background: 'linear-gradient(135deg, rgba(200,255,0,0.055), rgba(15,15,15,0.92) 34%, rgba(6,6,6,0.96))' }}>
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>START</p>
@@ -63,6 +112,27 @@ function RouteCTA() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ProofCard({ label, title, body }: { label: string; title: string; body: string }) {
+  return (
+    <article className="border p-6 md:p-8" style={{ borderColor: 'var(--ax-border)', background: 'rgba(15,15,15,0.72)' }}>
+      <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>{label}</p>
+      <h3 className="mt-5 text-2xl font-semibold tracking-[-0.035em]" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>{title}</h3>
+      <p className="mt-4 text-sm leading-6" style={{ color: 'rgba(235,235,235,0.62)', fontFamily: 'Geist, sans-serif' }}>{body}</p>
+    </article>
+  );
+}
+
+function IntakeStepCard({ number, title, children }: { number: string; title: string; children: ReactNode }) {
+  return (
+    <fieldset className="border p-6 md:p-8" style={{ borderColor: 'var(--ax-border)', background: 'rgba(15,15,15,0.58)' }}>
+      <legend className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
+        {number} / {title}
+      </legend>
+      {children}
+    </fieldset>
   );
 }
 
@@ -165,6 +235,11 @@ export function PricingPage() {
 
       <section className="ax-section-sm">
         <div className="ax-container ax-stack">
+          <div className="grid gap-5 md:grid-cols-3">
+            <ProofCard label="Choose this if" title="Subscription" body="You want the lowest upfront cost, hosting handled, and support after launch." />
+            <ProofCard label="Choose this if" title="Ownership" body="You want the code, the keys, and a clean handoff from day one." />
+            <ProofCard label="Choose this if" title="Custom scope" body="You have e-commerce, migrations, integrations, or a larger rebuild." />
+          </div>
           <div className="grid gap-8 lg:grid-cols-3">
             {pricingPlans.map((plan, index) => (
               <article key={plan.name} className="border p-7 md:p-9" style={{ borderColor: index === 0 ? 'rgba(200,255,0,0.48)' : 'var(--ax-border)', background: 'var(--ax-surface)' }}>
@@ -283,6 +358,11 @@ export function AboutPage() {
       />
       <section className="ax-section-sm">
         <div className="ax-container ax-stack">
+          <div className="grid gap-5 md:grid-cols-3">
+            <ProofCard label="Operator clarity" title="Built by people who care about the call." body="The site has to explain the offer, prove the business is serious, and route the next action fast." />
+            <ProofCard label="Build standard" title="Speed is part of trust." body="Performance, mobile clarity, and clean handoff are treated as sales problems, not technical extras." />
+            <ProofCard label="Local focus" title="Made for service businesses." body="Axiom is aimed at clinics, firms, trades, hospitality, and operators who need a stronger first impression." />
+          </div>
           <div className="grid gap-5 md:grid-cols-2">
             {aboutPrinciples.map(([title, body], index) => (
               <article key={title} className="border p-7 md:p-9" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
@@ -355,11 +435,27 @@ export function StartProjectPage() {
       <PageHero
         eyebrow="START"
         title="Tell us what needs to be built."
-        copy="Answer a few details. We’ll use them to point you to the right path."
+        copy="A calm intake that helps us understand the path, the business, and what needs to happen next."
       />
       <section className="ax-section-sm">
-        <div className="ax-container">
-          <form onSubmit={submit} className="grid gap-[var(--content-gap)]">
+        <div className="ax-container grid gap-[var(--content-gap)] lg:grid-cols-[0.42fr_1fr]">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="border p-6 md:p-8" style={{ borderColor: 'rgba(200,255,0,0.28)', background: 'rgba(200,255,0,0.035)' }}>
+              <p className="ax-label" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>INTAKE FLOW</p>
+              <div className="mt-8 grid gap-4">
+                {['Path', 'Contact', 'Business', 'Brief', 'Review'].map((item, index) => (
+                  <div key={item} className="flex items-center gap-4 border-b pb-4 last:border-b-0 last:pb-0" style={{ borderColor: 'var(--ax-border)' }}>
+                    <span className="text-[11px] font-semibold" style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>{String(index + 1).padStart(2, '0')}</span>
+                    <span className="text-sm uppercase tracking-[0.14em]" style={{ color: 'rgba(235,235,235,0.68)', fontFamily: 'Geist, sans-serif' }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 text-sm leading-6" style={{ color: 'rgba(235,235,235,0.58)', fontFamily: 'Geist, sans-serif' }}>
+                Nothing sends automatically. The final step opens an editable email draft.
+              </p>
+            </div>
+          </aside>
+          <form onSubmit={submit} className="grid gap-8">
             {error && (
               <p className="border p-4 text-sm" style={{ borderColor: 'rgba(200,255,0,0.45)', color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}>
                 {error}
@@ -463,13 +559,18 @@ export function LegalPage({ type }: { type: 'privacy' | 'terms' }) {
   return (
     <>
       <PageHero eyebrow="LEGAL" title={page.title} copy="Plain-language baseline terms for the Axiom website and project inquiries." />
-      <section className="ax-section-sm">
+      <section className="ax-section min-h-[58vh]">
         <div className="ax-container ax-stack-sm">
           {page.body.map((paragraph) => (
             <p key={paragraph} className="max-w-3xl text-base leading-8" style={{ color: 'rgba(235,235,235,0.66)', fontFamily: 'Geist, sans-serif' }}>
               {paragraph}
             </p>
           ))}
+          <div className="mt-10 border-t pt-8" style={{ borderColor: 'var(--ax-border)' }}>
+            <p className="text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+              Last reviewed / 2026
+            </p>
+          </div>
         </div>
       </section>
     </>

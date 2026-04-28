@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { processSteps } from '../../lib/siteContent';
+import { coarsePointer, motionDuration, motionEase, motionStagger, prefersReducedMotion } from '../../lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,67 +22,77 @@ export default function Process() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const reduced = prefersReducedMotion();
       const words = headingRef.current?.querySelectorAll('.reveal-word');
       if (words?.length) {
-        gsap.set(words, { y: '105%' });
-        ScrollTrigger.create({
-          trigger: headingRef.current,
-          start: 'top 82%',
-          once: true,
-          onEnter: () => gsap.to(words, { y: '0%', duration: 1.04, ease: 'power4.out', stagger: 0.066 }),
-        });
+        gsap.set(words, { y: reduced ? '0%' : '105%' });
+        if (!reduced) {
+          const mobile = window.matchMedia('(max-width: 767px)').matches;
+          ScrollTrigger.create({
+            trigger: headingRef.current,
+            start: 'top 82%',
+            once: true,
+            onEnter: () => gsap.to(words, { y: '0%', duration: mobile ? 0.62 : motionDuration.scene, ease: motionEase.reveal, stagger: mobile ? 0.035 : motionStagger.word }),
+          });
+        }
       }
 
       const stations = gsap.utils.toArray<HTMLElement>('.process-station');
-      gsap.set(stations, { clipPath: 'inset(0 100% 0 0)' });
-      gsap.to(stations, {
-        clipPath: 'inset(0 0% 0 0)',
-        duration: 0.9,
-        stagger: 0.12,
-        ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', once: true },
-      });
-
-      const path = pathRef.current;
-      if (path) {
-        const length = path.getTotalLength();
-        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-        gsap.to(path, {
-          strokeDashoffset: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 52%',
-            end: 'bottom 58%',
-            scrub: 0.8,
-          },
+      gsap.set(stations, { opacity: reduced ? 1 : 0, y: reduced ? 0 : 28, clipPath: reduced ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)' });
+      if (!reduced) {
+        gsap.to(stations, {
+          opacity: 1,
+          y: 0,
+          clipPath: 'inset(0 0% 0 0)',
+          duration: motionDuration.reveal,
+          stagger: motionStagger.card,
+          ease: motionEase.reveal,
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', once: true },
         });
-      }
 
-      if (window.matchMedia('(min-width: 768px)').matches && pinRef.current && trackRef.current) {
-        const distance = () => Math.max(0, trackRef.current!.scrollWidth - pinRef.current!.clientWidth);
-        gsap.to(trackRef.current, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: pinRef.current,
-            start: 'top top+=72',
-            end: () => `+=${distance() + window.innerHeight * 0.7}`,
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            scrub: 0.9,
-            invalidateOnRefresh: true,
-          },
-        });
-      }
+        const path = pathRef.current;
+        if (path) {
+          const length = path.getTotalLength();
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+          gsap.to(path, {
+            strokeDashoffset: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 52%',
+              end: 'bottom 58%',
+              scrub: 0.8,
+            },
+          });
+        }
 
-      if (mobileLineRef.current) {
-        gsap.fromTo(mobileLineRef.current, { scaleY: 0 }, {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: { trigger: mobileLineRef.current, start: 'top 78%', end: 'bottom 30%', scrub: 0.7 },
-        });
+        if (!coarsePointer() && window.matchMedia('(min-width: 768px)').matches && pinRef.current && trackRef.current) {
+          const distance = () => Math.max(0, trackRef.current!.scrollWidth - pinRef.current!.clientWidth);
+          if (distance() > 24) {
+            gsap.to(trackRef.current, {
+              x: () => -distance(),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: pinRef.current,
+                start: 'top top+=72',
+                end: () => `+=${distance() + window.innerHeight * 0.7}`,
+                pin: true,
+                pinSpacing: true,
+                anticipatePin: 1,
+                scrub: 0.9,
+                invalidateOnRefresh: true,
+              },
+            });
+          }
+        }
+
+        if (mobileLineRef.current) {
+          gsap.fromTo(mobileLineRef.current, { scaleY: 0 }, {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: { trigger: mobileLineRef.current, start: 'top 78%', end: 'bottom 30%', scrub: 0.7 },
+          });
+        }
       }
     }, sectionRef);
 
@@ -112,7 +123,7 @@ export default function Process() {
         <div ref={mobileLineRef} className="absolute bottom-20 top-10 w-px origin-top md:hidden" style={{ left: 'calc(var(--page-pad-x) + 10px)', background: 'var(--ax-lime)' }} />
         <div ref={trackRef} className="grid gap-6 md:flex md:w-max md:gap-12">
           {steps.map((step, index) => (
-            <article key={step.title} className="process-station relative overflow-hidden border p-7 md:w-[430px] md:p-9" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
+            <article key={step.title} className="process-station relative overflow-hidden border p-7 md:w-[clamp(430px,28vw,680px)] md:p-9" style={{ borderColor: 'var(--ax-border)', background: 'var(--ax-surface)' }}>
               <div
                 className="pointer-events-none absolute inset-0"
                 style={{

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { coarsePointer, prefersReducedMotion } from '../../lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,15 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const words = gsap.utils.toArray<HTMLElement>('.reveal-word');
       const accentWords = gsap.utils.toArray<HTMLElement>('.accent-word');
+
+      if (prefersReducedMotion()) {
+        gsap.set(words, { y: '0%', rotateX: 0 });
+        gsap.set([eyebrowRef.current, subRef.current, ctaRef.current, scrollRef.current], { opacity: 1, y: 0 });
+        gsap.set([headingRef.current, visualRef.current, contentRef.current], { clearProps: 'transform' });
+        gsap.set(handoffRef.current, { scaleY: 0 });
+        gsap.set(transitionRef.current, { opacity: 0 });
+        return;
+      }
 
       gsap.set(words, { y: '108%', rotateX: -18, transformOrigin: '50% 100%' });
       gsap.set([eyebrowRef.current, subRef.current, ctaRef.current, scrollRef.current], { opacity: 0, y: 18 });
@@ -128,22 +138,26 @@ export default function Hero() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (prefersReducedMotion() || coarsePointer()) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-    let animFrame: number;
+    let animFrame = 0;
     let running = true;
+    let active = false;
+    let rect = canvas.getBoundingClientRect();
     let scanStart = performance.now() + 950;
-    const COLS = 28;
-    const ROWS = 38;
-    const DOT_R = 1.38;
+    const COLS = 22;
+    const ROWS = 30;
+    const DOT_R = 1.28;
     const REACH = 176;
     const SCAN_EVERY = 4300;
 
     const setSize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
+      rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.max(1, Math.floor(rect.width * dpr));
       canvas.height = Math.max(1, Math.floor(rect.height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -153,7 +167,6 @@ export default function Hero() {
     window.addEventListener('resize', setSize);
 
     const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
       mouse.tx = e.clientX - rect.left;
       mouse.ty = e.clientY - rect.top;
     };
@@ -163,13 +176,16 @@ export default function Hero() {
       mouse.ty = -9999;
     };
 
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
     window.addEventListener('mouseleave', onMouseLeave);
 
     const draw = (now: number) => {
       if (!running) return;
+      if (!active || document.hidden) {
+        animFrame = 0;
+        return;
+      }
 
-      const rect = canvas.getBoundingClientRect();
       const W = rect.width;
       const H = rect.height;
       const { compression, intensity, scrollPulse } = canvasStateRef.current;
@@ -228,14 +244,39 @@ export default function Hero() {
       animFrame = requestAnimationFrame(draw);
     };
 
-    animFrame = requestAnimationFrame(draw);
+    const start = () => {
+      if (!running || animFrame || !active || document.hidden) return;
+      animFrame = requestAnimationFrame(draw);
+    };
+
+    const stop = () => {
+      if (!animFrame) return;
+      cancelAnimationFrame(animFrame);
+      animFrame = 0;
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      active = entry.isIntersecting;
+      if (active) start();
+      else stop();
+    }, { rootMargin: '160px 0px' });
+    observer.observe(canvas);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
       running = false;
-      cancelAnimationFrame(animFrame);
+      stop();
+      observer.disconnect();
       window.removeEventListener('resize', setSize);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 
@@ -253,6 +294,34 @@ export default function Hero() {
         background: '#060606',
       }}
     >
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          right: '7vw',
+          top: '18%',
+          width: 'min(42vw, 520px)',
+          height: '58%',
+          border: '1px solid rgba(235,235,235,0.055)',
+          backgroundImage:
+            'linear-gradient(rgba(235,235,235,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(235,235,235,0.04) 1px, transparent 1px)',
+          backgroundSize: '42px 42px',
+          opacity: 0.5,
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          right: 'var(--page-pad-x)',
+          bottom: '18%',
+          width: '32%',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(200,255,0,0.5))',
+          pointerEvents: 'none',
+        }}
+      />
       <div
         ref={contentRef}
         style={{

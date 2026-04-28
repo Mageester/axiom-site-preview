@@ -5,13 +5,10 @@ export default function Footer() {
 
   return (
     <footer className="ax-section-sm relative overflow-hidden border-t" style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}>
-      <img src="/logoclear-320.webp" alt="" className="pointer-events-none absolute bottom-[-18%] right-[-8%] w-[78vw] max-w-[900px]" style={{ opacity: 0.04, mixBlendMode: 'screen' }} />
       <div className="pointer-events-none absolute left-0 top-0 h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,255,0,0.42), transparent)' }} />
       <div className="ax-container relative z-10 grid gap-12 md:grid-cols-[1fr_0.4fr_0.4fr_0.4fr]">
         <div className="max-w-xs">
-          <h3 className="text-xl font-bold tracking-tight" style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}>
-            Axiom Infrastructure
-          </h3>
+          <img src="/logoclear-320.webp" alt="Axiom Infrastructure" className="h-8 w-auto" />
           <p className="mt-5 text-sm leading-6" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
             Websites built to convert. Not to decorate.
           </p>

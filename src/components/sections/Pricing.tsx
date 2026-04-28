@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { pricingPlans } from '../../lib/siteContent';
+import { motionDuration, motionEase, motionStagger, prefersReducedMotion } from '../../lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,27 +19,35 @@ export default function Pricing() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const reduced = prefersReducedMotion();
       const words = headingRef.current?.querySelectorAll('.reveal-word');
       if (words?.length) {
-        gsap.set(words, { y: '105%' });
-        ScrollTrigger.create({
-          trigger: headingRef.current,
-          start: 'top 82%',
-          once: true,
-          onEnter: () => gsap.to(words, { y: '0%', duration: 1.04, ease: 'power4.out', stagger: 0.066 }),
-        });
+        gsap.set(words, { y: reduced ? '0%' : '105%' });
+        if (!reduced) {
+          ScrollTrigger.create({
+            trigger: headingRef.current,
+            start: 'top 82%',
+            once: true,
+            onEnter: () => gsap.to(words, { y: '0%', duration: motionDuration.scene, ease: motionEase.reveal, stagger: motionStagger.word }),
+          });
+        }
       }
 
       const cards = gsap.utils.toArray<HTMLElement>('.pricing-card');
+      if (reduced) {
+        gsap.set(cards, { opacity: 1, y: 0 });
+        return;
+      }
+
       gsap.fromTo(
         cards,
         { opacity: 0, y: 32 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.85,
-          stagger: 0.12,
-          ease: 'power3.out',
+          duration: motionDuration.reveal,
+          stagger: motionStagger.card,
+          ease: motionEase.settle,
           scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', once: true },
         }
       );
@@ -86,8 +95,8 @@ export default function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <a href="#contact" className="mt-10 flex w-full items-center justify-center border py-4 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-[rgba(235,235,235,0.02)]" style={{ borderColor: index === 0 ? 'rgba(200,255,0,0.5)' : 'var(--ax-border)', color: index === 0 ? 'var(--ax-text)' : 'rgba(235,235,235,0.68)', background: index === 0 ? 'rgba(200,255,0,0.08)' : 'transparent', fontFamily: 'Geist, sans-serif' }}>
-                  Start a project
+                <a href="#contact" className="mt-9 inline-flex items-center text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors hover:text-[var(--ax-text)]" style={{ color: index === 0 ? 'var(--ax-lime)' : 'rgba(235,235,235,0.62)', fontFamily: 'Geist, sans-serif' }}>
+                  Start project <span aria-hidden="true" className="ml-3">-&gt;</span>
                 </a>
               </div>
             </article>

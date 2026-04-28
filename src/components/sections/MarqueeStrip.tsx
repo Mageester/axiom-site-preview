@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { coarsePointer, prefersReducedMotion } from '../../lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const items = ['WEBSITES', 'AI SYSTEMS', 'BRANDING', 'PERFORMANCE', 'KW ONTARIO', 'CORE WEB VITALS', 'EDGE-FIRST'];
+const items = ['2-4 WEEK LAUNCH', 'CORE WEB VITALS', 'DIRECT SUPPORT', 'NO ASTERISKS', 'MONTHLY OR OWNERSHIP', 'SCOPED BEFORE BUILD'];
 
 export default function MarqueeStrip() {
   const stripRef = useRef<HTMLElement>(null);
@@ -13,14 +14,25 @@ export default function MarqueeStrip() {
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    if (!stripRef.current) return;
+    if (!stripRef.current || !trackRef.current || prefersReducedMotion() || coarsePointer()) return;
 
     const ctx = gsap.context(() => {
       tweenRef.current = gsap.to(trackRef.current, {
         xPercent: -50,
-        duration: 24,
+        duration: 28,
         ease: 'none',
         repeat: -1,
+        paused: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: stripRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => tweenRef.current?.play(),
+        onEnterBack: () => tweenRef.current?.play(),
+        onLeave: () => tweenRef.current?.pause(),
+        onLeaveBack: () => tweenRef.current?.pause(),
       });
 
       gsap.fromTo(
@@ -45,9 +57,9 @@ export default function MarqueeStrip() {
   return (
     <section
       ref={stripRef}
-      className="relative overflow-hidden border-y py-6"
+      className="relative overflow-hidden border-y py-5"
       style={{ background: 'var(--ax-bg)', borderColor: 'var(--ax-border)' }}
-      aria-label="Axiom system capabilities"
+      aria-label="Axiom proof points"
       onMouseEnter={() => tweenRef.current?.pause()}
       onMouseLeave={() => tweenRef.current?.play()}
     >
@@ -60,8 +72,8 @@ export default function MarqueeStrip() {
         {[...items, ...items, ...items, ...items].map((item, index) => (
           <div key={`${item}-${index}`} className="flex items-center">
             <span
-              className="text-[13px] font-semibold uppercase tracking-[0.3em]"
-              style={{ padding: '0 32px', color: 'rgba(235,235,235,0.5)', fontFamily: 'Geist, sans-serif' }}
+              className="text-[12px] font-semibold uppercase tracking-[0.26em]"
+              style={{ padding: '0 32px', color: 'rgba(235,235,235,0.52)', fontFamily: 'Geist, sans-serif' }}
             >
               {item}
             </span>

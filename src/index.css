@@ -26,9 +26,9 @@
   --container-max: 1180px;
 
   --section-y-xs: clamp(56px, 7vw, 88px);
-  --section-y-sm: clamp(72px, 10vw, 120px);
-  --section-y: clamp(110px, 15vw, 190px);
-  --section-y-lg: clamp(140px, 20vw, 260px);
+  --section-y-sm: clamp(64px, 8vw, 104px);
+  --section-y: clamp(86px, 11vw, 142px);
+  --section-y-lg: clamp(104px, 14vw, 180px);
 
   --content-gap-xs: clamp(12px, 1.5vw, 20px);
   --content-gap-sm: clamp(20px, 3vw, 40px);
@@ -55,6 +55,7 @@ body {
   background-color: var(--color-ax-bg);
   overscroll-behavior: none;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 img,
@@ -173,6 +174,51 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
+.ax-button:hover {
+  background: #d4ff33;
+}
+
+.ax-button:active {
+  transform: translateY(1px);
+}
+
+.site-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.site-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(235,235,235,0.024) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(235,235,235,0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.32;
+}
+
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.028;
+  mix-blend-mode: screen;
+}
+
+.site-shell > nav,
+.site-shell > main,
+.site-shell > footer,
+.site-shell > div {
+  position: relative;
+}
+
 .nav-menu-button {
   display: flex !important;
   flex-direction: column;
@@ -202,6 +248,21 @@ textarea:focus-visible {
   * {
     cursor: auto !important;
   }
+
+  .ax-page-title {
+    font-size: clamp(44px, 14vw, 68px);
+    line-height: 0.95;
+  }
+
+  .ax-section-heading {
+    line-height: 0.94;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  * {
+    cursor: none !important;
+  }
 }
 
 /* Text selection */
@@ -215,12 +276,14 @@ textarea:focus-visible {
 ::-webkit-scrollbar-track { background: var(--color-ax-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-ax-border); }
 
-/* Custom cursor — hides default */
-* { cursor: none !important; }
-
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
-  * {
-    cursor: auto !important;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
@@ -228,34 +291,6 @@ textarea:focus-visible {
 .word-mask {
   overflow: hidden;
   display: inline-block;
-}
-
-/* Grain overlay on hero */
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10%       { transform: translate(-2%, -3%); }
-  20%       { transform: translate(3%, 2%); }
-  30%       { transform: translate(-1%, 4%); }
-  40%       { transform: translate(4%, -1%); }
-  50%       { transform: translate(-3%, 3%); }
-  60%       { transform: translate(2%, -4%); }
-  70%       { transform: translate(-4%, 1%); }
-  80%       { transform: translate(1%, -2%); }
-  90%       { transform: translate(3%, 4%); }
-}
-
-.grain::before {
-  content: '';
-  position: fixed;
-  inset: -200%;
-  width: 400%;
-  height: 400%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 9999;
-  animation: grain 8s steps(10) infinite;
 }
 
 @keyframes scrollLine {

@@ -1,97 +1,134 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { coarsePointer, prefersReducedMotion } from '../../lib/motion';
 
 export default function Cursor() {
-  const dotRef  = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const dot  = dotRef.current;
+    const dot = dotRef.current;
     const ring = ringRef.current;
     const label = labelRef.current;
-    
-    if (!dot || !ring || !label) return;
 
-    // Mouse position tracker
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-    let isVisible = false;
+    if (!dot || !ring || !label || prefersReducedMotion() || coarsePointer()) return;
 
-    const onMove = (e: MouseEvent) => {
-      if (!isVisible) {
-        isVisible = true;
-        gsap.to([dot, ring], { opacity: 1, duration: 0.3 });
-      }
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      gsap.set(dot, { x: mouseX - 4, y: mouseY - 4 });
+    const setDotX = gsap.quickSetter(dot, 'x', 'px');
+    const setDotY = gsap.quickSetter(dot, 'y', 'px');
+    const setRingX = gsap.quickSetter(ring, 'x', 'px');
+    const setRingY = gsap.quickSetter(ring, 'y', 'px');
+    const mouse = { x: -80, y: -80 };
+    const ringPos = { x: -80, y: -80 };
+    let raf = 0;
+    let visible = false;
+    let hovering = false;
+
+    const stopIfSettled = () => {
+      const dx = mouse.x - ringPos.x;
+      const dy = mouse.y - ringPos.y;
+      return !hovering && Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1;
     };
 
-    window.addEventListener('mousemove', onMove);
+    const tick = () => {
+      ringPos.x += (mouse.x - ringPos.x) * 0.16;
+      ringPos.y += (mouse.y - ringPos.y) * 0.16;
+      setRingX(ringPos.x - 20);
+      setRingY(ringPos.y - 20);
 
-    // Ring follows with lag (inertia)
-    const ticker = gsap.ticker.add(() => {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      gsap.set(ring, { x: ringX - 20, y: ringY - 20 });
-    });
-
-    // Hover states
-    const interactives = document.querySelectorAll('a, button, [data-cursor]');
-
-    const onEnter = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      const cursorType = el.dataset.cursor;
-
-      gsap.to(ring, { scale: 2.5, duration: 0.3, ease: 'power2.out' });
-      gsap.to(dot,  { scale: 0, duration: 0.2 });
-
-      if (cursorType === 'view') {
-        gsap.to(label, { opacity: 1, duration: 0.2 });
-        label.textContent = 'VIEW →';
+      if (stopIfSettled()) {
+        raf = 0;
+        return;
       }
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      setDotX(mouse.x - 4);
+      setDotY(mouse.y - 4);
+
+      if (!visible) {
+        visible = true;
+        ringPos.x = mouse.x;
+        ringPos.y = mouse.y;
+        gsap.to([dot, ring], { opacity: 1, duration: 0.25, ease: 'power2.out' });
+      }
+
+      wake();
+    };
+
+    const onPointerOver = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+      const interactive = target?.closest('a, button, [data-cursor]') as HTMLElement | null;
+      if (!interactive) return;
+
+      hovering = true;
+      gsap.to(ring, { scale: 2.1, duration: 0.28, ease: 'power2.out' });
+      gsap.to(dot, { scale: 0.2, duration: 0.2, ease: 'power2.out' });
+
+      if (interactive.dataset.cursor === 'view') {
+        label.textContent = 'VIEW';
+        gsap.to(label, { opacity: 1, duration: 0.18 });
+      }
+
+      wake();
+    };
+
+    const onPointerOut = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+      const interactive = target?.closest('a, button, [data-cursor]');
+      if (!interactive) return;
+
+      hovering = false;
+      gsap.to(ring, { scale: 1, duration: 0.34, ease: 'power2.out' });
+      gsap.to(dot, { scale: 1, duration: 0.2, ease: 'power2.out' });
+      gsap.to(label, { opacity: 0, duration: 0.14 });
+      wake();
     };
 
     const onLeave = () => {
-      gsap.to(ring,  { scale: 1, duration: 0.4, ease: 'power2.out' });
-      gsap.to(dot,   { scale: 1, duration: 0.2 });
-      gsap.to(label, { opacity: 0, duration: 0.15 });
+      visible = false;
+      gsap.to([dot, ring], { opacity: 0, duration: 0.2, ease: 'power2.out' });
     };
 
-    interactives.forEach(el => {
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
-    });
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerover', onPointerOver, { passive: true });
+    document.addEventListener('pointerout', onPointerOut, { passive: true });
+    document.addEventListener('mouseleave', onLeave);
 
     return () => {
-      window.removeEventListener('mousemove', onMove);
-      gsap.ticker.remove(ticker);
-      interactives.forEach(el => {
-        el.removeEventListener('mouseenter', onEnter);
-        el.removeEventListener('mouseleave', onLeave);
-      });
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerover', onPointerOver);
+      document.removeEventListener('pointerout', onPointerOut);
+      document.removeEventListener('mouseleave', onLeave);
     };
   }, []);
 
   return (
     <>
-      {/* Small dot — snaps to mouse */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full"
-        style={{ width: '8px', height: '8px', backgroundColor: '#c8ff00', willChange: 'transform', opacity: 0 }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full"
+        style={{ width: '8px', height: '8px', backgroundColor: '#c8ff00', opacity: 0, willChange: 'transform' }}
       />
-
-      {/* Ring — lags behind */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] flex items-center justify-center rounded-full bg-transparent"
-        style={{ width: '40px', height: '40px', border: '1px solid rgba(200,255,0,0.4)', willChange: 'transform', opacity: 0 }}
+        className="pointer-events-none fixed left-0 top-0 z-[9998] flex items-center justify-center rounded-full bg-transparent"
+        style={{ width: '40px', height: '40px', border: '1px solid rgba(200,255,0,0.44)', opacity: 0, willChange: 'transform' }}
       >
         <span
           ref={labelRef}
-          className="text-[9px] font-geist font-medium tracking-widest text-[var(--color-ax-lime)] opacity-0 select-none"
+          className="select-none font-geist text-[9px] font-medium tracking-widest text-[var(--ax-lime)] opacity-0"
         />
       </div>
     </>

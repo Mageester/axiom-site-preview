@@ -197,12 +197,6 @@ export default function Work() {
                   </div>
                 </div>
 
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-geist text-4xl font-bold uppercase tracking-[0.18em] text-[rgba(235,235,235,0.07)] md:text-7xl">
-                    {project.niche}
-                  </span>
-                </div>
-
                 <div className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-[var(--ax-lime)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
               </div>
             </div>

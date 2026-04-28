@@ -192,16 +192,16 @@ export default function Capabilities() {
     >
       <div
         ref={scanRef}
-        className="pointer-events-none absolute left-0 top-0 h-[46%] w-full"
+        className="pointer-events-none absolute left-0 top-0 h-[30%] w-full"
         style={{
           background:
-            'linear-gradient(180deg, transparent, rgba(200,255,0,0.2), transparent)',
-          opacity: 0.72,
+            'linear-gradient(180deg, transparent, rgba(200,255,0,0.1), transparent)',
+          opacity: 0.42,
         }}
       />
 
       <div className="ax-container relative z-10">
-      <div className="mb-[var(--content-gap)] max-w-5xl">
+      <div className="mb-[var(--content-gap-sm)] max-w-5xl">
         <p
           className="mb-7 text-[11px] font-semibold uppercase tracking-[0.24em]"
           style={{ color: 'var(--ax-lime)', fontFamily: 'Geist, sans-serif' }}
@@ -237,11 +237,11 @@ export default function Capabilities() {
         </p>
       </div>
 
-      <div className="relative z-10 grid gap-[var(--content-gap)] lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-        <aside className="lg:sticky lg:top-28">
+      <div className="relative z-10 grid gap-10 lg:gap-12">
+        <aside>
           <div
             ref={panelRef}
-            className="relative overflow-hidden border p-5 md:p-7"
+            className="relative overflow-hidden border p-5 md:p-7 lg:p-8"
             style={{
               background: 'var(--ax-surface)',
               borderColor: 'var(--ax-border)',
@@ -273,30 +273,30 @@ export default function Capabilities() {
               </span>
             </div>
 
-            <div className="relative grid grid-cols-2">
+            <div className="relative grid grid-cols-2 md:grid-cols-4">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className="min-h-[124px] border-b py-6 pr-4 even:border-l even:pl-5 md:min-h-[148px]"
+                  className="min-h-[108px] border-b px-5 py-6 md:min-h-[128px] md:border-b-0 md:border-l md:first:border-l-0"
                   style={{ borderColor: 'var(--ax-border)' }}
                 >
                   <span
                     ref={(node) => {
                       statValueRefs.current[index] = node;
                     }}
-                    className="block text-[clamp(36px,4.5vw,58px)] font-bold tracking-[-0.06em]"
+                    className="block text-[clamp(34px,4vw,52px)] font-bold tracking-[-0.055em]"
                     style={{ color: 'var(--ax-text)', fontFamily: 'Geist, sans-serif' }}
                   >
                     {formatStat(0, stat)}
                   </span>
-                  <span className="mt-4 block text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
+                  <span className="mt-4 block text-[10px] uppercase tracking-[0.16em]" style={{ color: 'var(--ax-muted)', fontFamily: 'Geist, sans-serif' }}>
                     {stat.label}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="relative flex flex-wrap gap-x-5 gap-y-2 pt-5 text-[10px] uppercase tracking-[0.22em]" style={{ color: 'rgba(235,235,235,0.34)', fontFamily: 'Geist, sans-serif' }}>
+            <div className="relative flex flex-wrap gap-x-6 gap-y-2 pt-6 text-[10px] uppercase tracking-[0.18em]" style={{ color: 'rgba(235,235,235,0.34)', fontFamily: 'Geist, sans-serif' }}>
               <span>NO TEMPLATE SLUDGE</span>
               <span style={{ color: 'rgba(200,255,0,0.62)' }}>CONTROLLED BUILD</span>
               <span>LOCAL SYSTEMS</span>
@@ -319,7 +319,7 @@ export default function Capabilities() {
               >
                 <button
                   type="button"
-                  className="grid w-full grid-cols-[42px_1fr] gap-4 py-8 text-left md:grid-cols-[72px_1fr_150px] md:gap-7 md:py-10"
+                  className="grid w-full grid-cols-[42px_1fr] gap-4 py-7 text-left md:grid-cols-[72px_1fr_150px] md:gap-7 md:py-9"
                   onClick={() => setActiveIndex(index)}
                   aria-expanded={active}
                   aria-controls={`capability-panel-${index}`}
@@ -335,7 +335,7 @@ export default function Capabilities() {
                   </span>
                   <span>
                     <span
-                      className="block text-[clamp(26px,3vw,42px)] font-semibold tracking-[-0.04em] transition-colors"
+                      className="block text-[clamp(28px,3.4vw,46px)] font-semibold tracking-[-0.04em] transition-colors"
                       style={{
                         color: active ? 'var(--ax-text)' : 'rgba(235,235,235,0.68)',
                         fontFamily: 'Geist, sans-serif',
@@ -353,16 +353,7 @@ export default function Capabilities() {
                       {item.label}
                     </span>
                   </span>
-                  <span
-                    className="hidden self-start justify-self-end border px-3 py-2 text-[10px] uppercase tracking-[0.2em] transition-colors md:block"
-                    style={{
-                      borderColor: active ? 'rgba(200,255,0,0.38)' : 'var(--ax-border)',
-                      color: active ? 'rgba(200,255,0,0.68)' : 'rgba(235,235,235,0.28)',
-                      fontFamily: 'Geist, sans-serif',
-                    }}
-                  >
-                    {active ? 'OPEN' : 'READY'}
-                  </span>
+                  <span className="hidden md:block" aria-hidden="true" />
                 </button>
 
                 <div

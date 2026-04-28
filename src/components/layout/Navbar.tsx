@@ -51,6 +51,10 @@ export default function Navbar() {
         onComplete: () => gsap.set(overlay, { display: 'none' })
       });
     }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [menuOpen]);
 
   return (
@@ -62,14 +66,13 @@ export default function Navbar() {
           height: '72px',
           paddingLeft: 'var(--page-pad-x)',
           paddingRight: 'var(--page-pad-x)',
-          background: scrolled ? 'rgba(6,6,6,0.92)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          background: scrolled ? 'rgba(6,6,6,0.98)' : 'rgba(6,6,6,0.78)',
           borderBottom: scrolled ? '1px solid var(--ax-border)' : '1px solid transparent',
-          transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
+          transition: 'background 0.25s ease, border-color 0.25s ease',
         }}
       >
         <Link to="/" className="group flex items-center no-underline" aria-label="Axiom Infrastructure home">
-          <img src="/logoclear-320.webp" alt="Axiom" className="h-[14px] w-auto transition-opacity duration-300" style={{ opacity: scrolled ? 0.94 : 0.9 }} />
+          <img src="/logoclear-320.webp" alt="Axiom" className="h-[30px] w-auto transition-opacity duration-300 md:h-[32px]" style={{ opacity: scrolled ? 0.98 : 0.96 }} />
         </Link>
 
         {/* Desktop nav links */}
@@ -100,7 +103,7 @@ export default function Navbar() {
           <Link
             to="/start-a-project"
             className="hidden bg-[var(--ax-lime)] text-[var(--ax-bg)] font-geist font-semibold transition-colors duration-150 hover:bg-[#d4ff33] md:block"
-            style={{ fontSize: '11px', letterSpacing: '0.1em', padding: '10px 18px', borderRadius: '0' }}
+            style={{ color: '#060606', fontSize: '12px', fontWeight: 800, letterSpacing: '0.08em', padding: '12px 22px', borderRadius: '0', textShadow: 'none' }}
           >
             Start a Project
           </Link>

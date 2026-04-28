@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { whyAxiomPoints } from '../../lib/siteContent';
+import { motionDuration, motionEase, motionStagger, prefersReducedMotion } from '../../lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,27 +21,35 @@ export default function WhyAxiom() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const reduced = prefersReducedMotion();
       const words = headingRef.current?.querySelectorAll('.reveal-word');
       if (words?.length) {
-        gsap.set(words, { y: '105%' });
-        ScrollTrigger.create({
-          trigger: headingRef.current,
-          start: 'top 82%',
-          once: true,
-          onEnter: () => gsap.to(words, { y: '0%', duration: 1.04, ease: 'power4.out', stagger: 0.066 }),
-        });
+        gsap.set(words, { y: reduced ? '0%' : '105%' });
+        if (!reduced) {
+          ScrollTrigger.create({
+            trigger: headingRef.current,
+            start: 'top 82%',
+            once: true,
+            onEnter: () => gsap.to(words, { y: '0%', duration: motionDuration.scene, ease: motionEase.reveal, stagger: motionStagger.word }),
+          });
+        }
       }
 
       const rows = gsap.utils.toArray<HTMLElement>('.why-cell');
+      if (reduced) {
+        gsap.set(rows, { opacity: 1, x: 0 });
+        return;
+      }
+
       gsap.fromTo(
         rows,
         { opacity: 0, x: -16 },
         {
           opacity: 1,
           x: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: 'power3.out',
+          duration: motionDuration.reveal,
+          stagger: motionStagger.card,
+          ease: motionEase.settle,
           scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', once: true },
         }
       );

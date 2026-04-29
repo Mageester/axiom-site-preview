@@ -23,6 +23,20 @@ export default function Cursor() {
     let raf = 0;
     let visible = false;
     let hovering = false;
+    let hasPointer = false;
+
+    const show = () => {
+      if (visible || !hasPointer) return;
+
+      visible = true;
+      ringPos.x = mouse.x;
+      ringPos.y = mouse.y;
+      setDotX(mouse.x - 4);
+      setDotY(mouse.y - 4);
+      setRingX(ringPos.x - 20);
+      setRingY(ringPos.y - 20);
+      gsap.to([dot, ring], { opacity: 1, duration: 0.18, ease: 'power2.out' });
+    };
 
     const stopIfSettled = () => {
       const dx = mouse.x - ringPos.x;
@@ -51,17 +65,13 @@ export default function Cursor() {
     const onMove = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse') return;
 
+      hasPointer = true;
       mouse.x = event.clientX;
       mouse.y = event.clientY;
       setDotX(mouse.x - 4);
       setDotY(mouse.y - 4);
 
-      if (!visible) {
-        visible = true;
-        ringPos.x = mouse.x;
-        ringPos.y = mouse.y;
-        gsap.to([dot, ring], { opacity: 1, duration: 0.25, ease: 'power2.out' });
-      }
+      show();
 
       wake();
     };
@@ -100,7 +110,13 @@ export default function Cursor() {
       gsap.to([dot, ring], { opacity: 0, duration: 0.2, ease: 'power2.out' });
     };
 
+    const onScroll = () => {
+      show();
+      wake();
+    };
+
     window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     document.addEventListener('pointerover', onPointerOver, { passive: true });
     document.addEventListener('pointerout', onPointerOut, { passive: true });
     document.addEventListener('mouseleave', onLeave);
@@ -108,6 +124,7 @@ export default function Cursor() {
     return () => {
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('scroll', onScroll);
       document.removeEventListener('pointerover', onPointerOver);
       document.removeEventListener('pointerout', onPointerOut);
       document.removeEventListener('mouseleave', onLeave);

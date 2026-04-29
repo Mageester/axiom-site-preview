@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { workProjects } from '../../lib/siteContent';
@@ -142,9 +141,9 @@ export default function Work() {
 
       <div className="flex flex-col gap-[var(--content-gap-lg)]">
         {projects.map((project) => (
-          <Link
+          <a
             key={project.title}
-            to={project.demoHref}
+            href={project.demoHref}
             className="work-card group block w-full no-underline"
           >
             <div className="visual-container relative overflow-hidden border bg-[var(--ax-surface)]" style={{ borderColor: 'rgba(235,235,235,0.13)', minHeight: 'clamp(320px, 42vw, 560px)' }}>
@@ -218,7 +217,7 @@ export default function Work() {
                 View <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
       </div>

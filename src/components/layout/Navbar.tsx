@@ -113,6 +113,8 @@ export default function Navbar() {
             className="nav-menu-button"
             onClick={() => setMenuOpen(v => !v)}
             aria-label="Toggle menu"
+            aria-controls="mobile-navigation"
+            aria-expanded={menuOpen}
             style={{
               position: 'absolute',
               right: 'var(--page-pad-x)',
@@ -174,8 +176,10 @@ export default function Navbar() {
 
       {/* Mobile overlay */}
       <div
+        id="mobile-navigation"
         ref={overlayRef}
         className="fixed inset-0 z-40 bg-[var(--ax-bg)] flex-col items-start justify-center px-8 gap-6"
+        aria-hidden={!menuOpen}
         style={{ display: 'none', clipPath: 'inset(0 0 100% 0)' }}
       >
         {navLinks.map(link => (

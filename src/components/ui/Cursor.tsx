@@ -105,7 +105,7 @@ export default function Cursor() {
       wake();
     };
 
-    const onLeave = () => {
+    const onBlur = () => {
       visible = false;
       gsap.to([dot, ring], { opacity: 0, duration: 0.2, ease: 'power2.out' });
     };
@@ -117,17 +117,17 @@ export default function Cursor() {
 
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('blur', onBlur);
     document.addEventListener('pointerover', onPointerOver, { passive: true });
     document.addEventListener('pointerout', onPointerOut, { passive: true });
-    document.addEventListener('mouseleave', onLeave);
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('blur', onBlur);
       document.removeEventListener('pointerover', onPointerOver);
       document.removeEventListener('pointerout', onPointerOut);
-      document.removeEventListener('mouseleave', onLeave);
     };
   }, []);
 
@@ -135,12 +135,12 @@ export default function Cursor() {
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full"
+        className="ax-cursor pointer-events-none fixed left-0 top-0 z-[9999] rounded-full"
         style={{ width: '8px', height: '8px', backgroundColor: '#c8ff00', opacity: 0, willChange: 'transform' }}
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9998] flex items-center justify-center rounded-full bg-transparent"
+        className="ax-cursor pointer-events-none fixed left-0 top-0 z-[9998] flex items-center justify-center rounded-full bg-transparent"
         style={{ width: '40px', height: '40px', border: '1px solid rgba(200,255,0,0.44)', opacity: 0, willChange: 'transform' }}
       >
         <span

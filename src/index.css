@@ -215,8 +215,12 @@ textarea:focus-visible {
 .site-shell > nav,
 .site-shell > main,
 .site-shell > footer,
-.site-shell > div {
+.site-shell > div:not(.ax-cursor) {
   position: relative;
+}
+
+.site-shell > .ax-cursor {
+  position: fixed;
 }
 
 .nav-menu-button {
